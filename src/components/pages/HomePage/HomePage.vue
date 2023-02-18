@@ -6,4 +6,4 @@ const props = defineProps<{ msg: string }>();
   <h1 class="text-3xl font-bold underline">{{ props.msg }}</h1>
 </template>
 
-<style scoped></style>
+<style scoped lang="scss"></style>
