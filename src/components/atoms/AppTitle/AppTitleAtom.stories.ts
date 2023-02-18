@@ -1,18 +1,18 @@
 import "../../../style.css";
 import { Meta, Story } from "@storybook/vue3";
-import HomePage from "./HomePage.vue";
+import AppTitleAtom from "./AppTitleAtom.vue";
 
 export default {
-  title: "Pages/HomePage",
-  component: HomePage,
+  title: "Atoms/AppTitleAtom",
+  component: AppTitleAtom,
 } as Meta;
 
 const Template = (args: any) => ({
-  components: { HomePage },
+  components: { AppTitleAtom },
   setup() {
     return { args };
   },
-  template: '<home-page v-bind="args" />',
+  template: '<app-title-atom v-bind="args" />',
 });
 
 export const Primary: Story = Template.bind({});

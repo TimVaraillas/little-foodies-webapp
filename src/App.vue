@@ -3,7 +3,7 @@ import HomePage from "./components/pages/HomePage/HomePage.vue";
 </script>
 
 <template>
-  <HomePage msg="Little foodies" />
+  <HomePage title="Little foodies" />
 </template>
 
 <style scoped></style>

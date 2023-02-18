@@ -1,21 +1,21 @@
 import "../../../style.css";
 import { Meta, Story } from "@storybook/vue3";
-import HomePage from "./HomePage.vue";
+import NavBarOrganism from "./NavBarOrganism.vue";
 
 export default {
-  title: "Pages/HomePage",
-  component: HomePage,
+  title: "Organisms/NavBarOrganism",
+  component: NavBarOrganism,
 } as Meta;
 
 const Template = (args: any) => ({
-  components: { HomePage },
+  components: { NavBarOrganism },
   setup() {
     return { args };
   },
-  template: '<home-page v-bind="args" />',
+  template: '<nav-bar-organism v-bind="args" />',
 });
 
 export const Primary: Story = Template.bind({});
 Primary.args = {
-  title: "Little foodies",
+  appTitle: "Little foodies",
 };

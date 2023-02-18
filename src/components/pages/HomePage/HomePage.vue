@@ -1,9 +1,10 @@
 <script setup lang="ts">
-const props = defineProps<{ msg: string }>();
+import NavBar from "../../organisms/NavBar/NavBarOrganism.vue";
+const props = defineProps<{ title: string }>();
 </script>
 
 <template>
-  <h1 class="text-3xl font-bold underline">{{ props.msg }}</h1>
+  <nav-bar :app-title="props.title"></nav-bar>
 </template>
 
 <style scoped lang="scss"></style>
