@@ -1,21 +1,21 @@
 import "../../../style.css";
 import { Meta, Story } from "@storybook/vue3";
-import HomePage from "./HomePage.vue";
+import HeaderTitleAtom from "./HeaderTitleAtom.vue";
 
 export default {
-  title: "Pages/HomePage",
-  component: HomePage,
+  title: "Atoms/HeaderTitleAtom",
+  component: HeaderTitleAtom,
 } as Meta;
 
 const Template = (args: any) => ({
-  components: { HomePage },
+  components: { HeaderTitleAtom },
   setup() {
     return { args };
   },
-  template: '<home-page v-bind="args" />',
+  template: '<header-title-atom v-bind="args" />',
 });
 
 export const Standard: Story = Template.bind({});
 Standard.args = {
-  title: "Little foodies",
+  text: "Diversification alimentaire",
 };

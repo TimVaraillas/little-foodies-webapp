@@ -15,7 +15,7 @@ const Template = (args: any) => ({
   template: '<app-title-atom v-bind="args" />',
 });
 
-export const Primary: Story = Template.bind({});
-Primary.args = {
+export const Standard: Story = Template.bind({});
+Standard.args = {
   title: "Little foodies",
 };

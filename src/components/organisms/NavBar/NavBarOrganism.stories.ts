@@ -15,7 +15,7 @@ const Template = (args: any) => ({
   template: '<nav-bar-organism v-bind="args" />',
 });
 
-export const Primary: Story = Template.bind({});
-Primary.args = {
+export const Standard: Story = Template.bind({});
+Standard.args = {
   appTitle: "Little foodies",
 };
