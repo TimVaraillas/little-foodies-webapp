@@ -1,5 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Leckerli+One&display=swap');
+@import "./assets/fonts.css";
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+  font-family: "Roboto", "Helvetica Neue", sans-serif;
+}
