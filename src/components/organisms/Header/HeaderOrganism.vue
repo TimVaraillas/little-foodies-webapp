@@ -2,10 +2,10 @@
 import HeaderTitle from "../../atoms/HeaderTitle/HeaderTitleAtom.vue";
 import HeaderSubtitle from "../../atoms/HeaderSubtitle/HeaderSubtitleAtom.vue";
 
-const props = defineProps({
-  title: String,
-  subtitle: String,
-});
+const props = defineProps<{
+  title?: string;
+  subtitle?: string;
+}>();
 </script>
 
 <template>
@@ -22,6 +22,9 @@ const props = defineProps({
         <header-subtitle v-else>
           <slot name="subtitle"></slot>
         </header-subtitle>
+      </div>
+      <div class="mt-12 w-full">
+        <slot name="content"></slot>
       </div>
     </div>
   </div>
