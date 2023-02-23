@@ -1,4 +1,4 @@
-import "../../../style.css";
+
 import { Meta, Story } from "@storybook/vue3";
 import HeaderTitleAtom from "./HeaderTitleAtom.vue";
 

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import AppTitle from "../../atoms/AppTitle/AppTitleAtom.vue";
+import AppTitle from "@components/atoms/AppTitle/AppTitleAtom.vue";
 
 const props = defineProps<{ appTitle: string }>();
 </script>
