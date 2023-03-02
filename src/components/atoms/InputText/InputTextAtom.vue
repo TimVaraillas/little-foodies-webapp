@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, withDefaults } from "vue";
+import { computed } from "vue";
 
 type Size = "xs" | "sm" | "md" | "lg" | "xl";
 
@@ -40,7 +40,7 @@ const inputClass = {
 
 <template>
   <div
-    class="w-full flex bg-slate-50 text-slate-900 rounded-lg"
+    class="w-full flex bg-slate-50 text-slate-900 rounded-lg focus-within:ring-4 focus-within:ring-amber-200"
     :class="inputClass"
   >
     <div
