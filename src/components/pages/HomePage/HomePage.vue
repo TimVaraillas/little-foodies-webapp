@@ -1,17 +1,51 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, Ref } from "vue";
+
+import gql from "graphql-tag";
+import { useQuery } from "@vue/apollo-composable";
+
 import NavBar from "@components/organisms/NavBar/NavBarOrganism.vue";
-import HeaderComponent from "@components/organisms/Header/HeaderOrganism.vue";
+import HeaderOrganism from "@components/organisms/Header/HeaderOrganism.vue";
 import InputText from "@components/atoms/InputText/InputTextAtom.vue";
+import SelectAtom from "@components/atoms/Select/SelectAtom.vue";
+import FoodGridOrganism from "@components/organisms/FoodGrid/FoodGridOrganism.vue";
 
 const props = defineProps<{ title: string }>();
 
 const search = ref("");
+
+const categories = ["Fruits", "Légumes", "Protéines animales"];
+const categoriesSelected: Ref<string | null> = ref(null);
+
+const seasons: string[] = ["Printemps", "Été", "Automne", "Hiver"];
+const seasonsSelected: Ref<string[]> = ref([]);
+
+const allergens = [
+  { label: "Oui", value: true },
+  { label: "Non", value: false },
+];
+const allergensSelected: Ref<string | null> = ref(null);
+
+const FOOD_QUERY = gql`
+  query GetFoodByCategories {
+    getFoodByCategories {
+      category
+      food {
+        name
+        image
+        season
+        main_allergens
+        introductory_month
+      }
+    }
+  }
+`;
+const { result } = useQuery(FOOD_QUERY);
 </script>
 
 <template>
   <nav-bar :app-title="props.title" />
-  <header-component title="Diversification alimentaire">
+  <header-organism title="Diversification alimentaire">
     <template #subtitle>
       <span><b>Jules</b> a déjà goûté...</span>
     </template>
@@ -27,8 +61,44 @@ const search = ref("");
           size="lg"
         />
       </div>
+      <!-- <pre>{{ foodByCategories }}</pre> -->
+      <div class="flex flex-wrap items-center justify-center my-3">
+        <select-atom
+          class="mx-1 mb-1 select-filter"
+          mode="tags"
+          placeholder="Catégories"
+          v-model="categoriesSelected"
+          :options="categories"
+          size="sm"
+          :closeOnSelect="false"
+        />
+        <select-atom
+          class="mx-1 mb-1 select-filter"
+          mode="tags"
+          placeholder="Saisons"
+          v-model="seasonsSelected"
+          :options="seasons"
+          size="sm"
+          :closeOnSelect="false"
+        />
+        <select-atom
+          class="mx-1 mb-1 select-filter"
+          mode="single"
+          placeholder="Allergènes majeurs"
+          v-model="allergensSelected"
+          :options="allergens"
+          size="sm"
+        />
+      </div>
     </template>
-  </header-component>
+  </header-organism>
+  <div v-if="result" class="container mx-auto my-16">
+    <food-grid-organism :food-by-categories="result.getFoodByCategories" />
+  </div>
 </template>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.select-filter {
+  flex: 1 1 200px;
+}
+</style>
