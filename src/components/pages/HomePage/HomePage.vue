@@ -12,9 +12,11 @@ import FoodGridOrganism from "@components/organisms/FoodGrid/FoodGridOrganism.vu
 
 const props = defineProps<{ title: string }>();
 
+const store = useFoodStore();
+const { categories, foodByCategories } = storeToRefs(store);
+
 const search = ref("");
 
-const categories = ["Fruits", "Légumes", "Féculents", "Protéines animales"];
 const categoriesSelected: Ref<string[] | null> = ref(null);
 
 const seasons: any[] = [
@@ -25,21 +27,26 @@ const seasons: any[] = [
 ];
 const seasonsSelected: Ref<string[] | null> = ref(null);
 
-const allergens = [
-  { label: "Oui", value: "true" },
-  { label: "Non", value: "false" },
+const introductoryAge: any[] = [
+  { value: "4", label: "à partir de 4 mois" },
+  { value: "6", label: "à partir de 6 mois" },
+  { value: "9", label: "à partir de 9 mois" },
+  { value: "12", label: "à partir de 12 mois" },
 ];
+const introductoryAgeSelected: Ref<string | null> = ref(null);
+const parsedIntroductoryAgeSelected = computed(() =>
+  introductoryAgeSelected.value ? parseInt(introductoryAgeSelected.value) : null
+);
+
+const allergens = ["Oui", "Non"];
 const allergensSelected: Ref<string | null> = ref(null);
-const booleanAllergensSelected = computed(() =>
+const parsedAllergensSelected = computed(() =>
   allergensSelected.value
-    ? allergensSelected.value === "true"
+    ? allergensSelected.value === "Oui"
       ? true
       : false
     : null
 );
-
-const store = useFoodStore();
-const { foodByCategories } = storeToRefs(store);
 </script>
 
 <template>
@@ -67,6 +74,8 @@ const { foodByCategories } = storeToRefs(store);
           placeholder="Catégories"
           v-model="categoriesSelected"
           :options="categories"
+          value-prop="id"
+          label-prop="name"
           size="sm"
           :closeOnSelect="false"
         />
@@ -78,6 +87,14 @@ const { foodByCategories } = storeToRefs(store);
           :options="seasons"
           size="sm"
           :closeOnSelect="false"
+        />
+        <select-atom
+          class="mx-1 mb-1 select-filter"
+          mode="single"
+          placeholder="Âge d'introduction"
+          v-model="introductoryAgeSelected"
+          :options="introductoryAge"
+          size="sm"
         />
         <select-atom
           class="mx-1 mb-1 select-filter"
@@ -97,7 +114,8 @@ const { foodByCategories } = storeToRefs(store);
           search,
           categoriesSelected,
           seasonsSelected,
-          booleanAllergensSelected
+          parsedIntroductoryAgeSelected,
+          parsedAllergensSelected
         )
       "
     />

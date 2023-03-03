@@ -10,6 +10,7 @@ interface Props {
   options?: string[] | any[];
   mode: "single" | "multiple" | "tags";
   valueProp?: string;
+  labelProp?: string;
   searchable?: boolean;
   clearable?: boolean;
   placeholder?: string;
@@ -22,7 +23,6 @@ interface Props {
 
 const props = withDefaults(defineProps<Props>(), {
   mode: "single",
-  searchable: true,
   clearable: true,
   noResultsText: "Aucun résultat trouvé",
   noOptionsText: "La liste est vide",
@@ -54,7 +54,8 @@ const sizeClass = computed(() => ({
     v-model="internalValue"
     :options="props.options"
     :mode="props.mode"
-    :valueProp?="valueProp"
+    :valueProp="valueProp"
+    :label="labelProp"
     :placeholder="props.placeholder"
     :close-on-select="closeOnSelect"
     :searchable="props.searchable"
