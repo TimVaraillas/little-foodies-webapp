@@ -4,6 +4,8 @@ import { useQuery } from "@vue/apollo-composable";
 import gql from "graphql-tag";
 import { intersection } from "lodash";
 
+import type Food from "@/types/food.type";
+
 export const useFoodStore = defineStore("food", () => {
   const { loading, result } = useQuery(gql`
     query getFoods {
@@ -26,9 +28,10 @@ export const useFoodStore = defineStore("food", () => {
     }
   `);
 
-  const categories = computed(() => result.value?.getCategories ?? []);
-
-  const food = computed(() => result.value?.getFoods ?? []);
+  const categories = computed(
+    () => (result.value?.getCategories ?? []) as any[]
+  );
+  const food = computed(() => (result.value?.getFoods ?? []) as Food[]);
 
   const filteredFood = computed(() => {
     return (
@@ -37,8 +40,8 @@ export const useFoodStore = defineStore("food", () => {
       seasons: string[] | null = [],
       introductoryMonth: number | null = null,
       allergens: boolean | null = null
-    ) => {
-      return food.value.filter((f: any) => {
+    ): Food[] => {
+      return food.value.filter((f: Food) => {
         if (search && !f.name.toLowerCase().includes(search.toLowerCase())) {
           return false;
         }
@@ -60,8 +63,8 @@ export const useFoodStore = defineStore("food", () => {
   });
 
   const foodByCategories = computed(() => {
-    return (...args: any) =>
-      filteredFood.value(...args).reduce((acc: any[], value: any) => {
+    return (...args: any): any[] =>
+      filteredFood.value(...args).reduce((acc: any[], value: Food) => {
         const category = value.category?.name;
         const index = acc.findIndex((g) => g.category === category);
         if (index > -1) {

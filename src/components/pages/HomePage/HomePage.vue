@@ -2,7 +2,7 @@
 import { ref, Ref, computed } from "vue";
 import { storeToRefs } from "pinia";
 
-import { useFoodStore } from "@/stores/food";
+import { useFoodStore } from "@/stores/food.store";
 
 import NavBar from "@components/organisms/NavBar/NavBarOrganism.vue";
 import HeaderOrganism from "@components/organisms/Header/HeaderOrganism.vue";
