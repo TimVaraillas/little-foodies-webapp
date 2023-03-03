@@ -1,4 +1,5 @@
 import { createApp, provide, h } from "vue";
+import { createPinia } from "pinia";
 import { DefaultApolloClient } from "@vue/apollo-composable";
 import { ApolloClient, InMemoryCache } from "@apollo/client/core";
 import App from "./App.vue";
@@ -17,11 +18,14 @@ const apolloClient = new ApolloClient({
   uri: "http://localhost:4000/graphql",
 });
 
+const pinia = createPinia();
+
 createApp({
   setup: () => {
     provide(DefaultApolloClient, apolloClient);
   },
   render: () => h(App),
 })
+  .use(pinia)
   .component("font-awesome-icon", FontAwesomeIcon)
   .mount("#app");
