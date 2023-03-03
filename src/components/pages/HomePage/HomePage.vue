@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { ref, Ref } from "vue";
+import { ref, Ref, computed } from "vue";
+import { storeToRefs } from "pinia";
 
-import gql from "graphql-tag";
-import { useQuery } from "@vue/apollo-composable";
+import { useFoodStore } from "@/stores/food";
 
 import NavBar from "@components/organisms/NavBar/NavBarOrganism.vue";
 import HeaderOrganism from "@components/organisms/Header/HeaderOrganism.vue";
@@ -14,33 +14,32 @@ const props = defineProps<{ title: string }>();
 
 const search = ref("");
 
-const categories = ["Fruits", "Légumes", "Protéines animales"];
-const categoriesSelected: Ref<string | null> = ref(null);
+const categories = ["Fruits", "Légumes", "Féculents", "Protéines animales"];
+const categoriesSelected: Ref<string[] | null> = ref(null);
 
-const seasons: string[] = ["Printemps", "Été", "Automne", "Hiver"];
-const seasonsSelected: Ref<string[]> = ref([]);
+const seasons: any[] = [
+  { value: "spring", label: "Printemps" },
+  { value: "summer", label: "Été" },
+  { value: "automn", label: "Automne" },
+  { value: "winter", label: "Hiver" },
+];
+const seasonsSelected: Ref<string[] | null> = ref(null);
 
 const allergens = [
-  { label: "Oui", value: true },
-  { label: "Non", value: false },
+  { label: "Oui", value: "true" },
+  { label: "Non", value: "false" },
 ];
 const allergensSelected: Ref<string | null> = ref(null);
+const booleanAllergensSelected = computed(() =>
+  allergensSelected.value
+    ? allergensSelected.value === "true"
+      ? true
+      : false
+    : null
+);
 
-const FOOD_QUERY = gql`
-  query GetFoodByCategories {
-    getFoodByCategories {
-      category
-      food {
-        name
-        image
-        season
-        main_allergens
-        introductory_month
-      }
-    }
-  }
-`;
-const { result } = useQuery(FOOD_QUERY);
+const store = useFoodStore();
+const { foodByCategories } = storeToRefs(store);
 </script>
 
 <template>
@@ -61,7 +60,6 @@ const { result } = useQuery(FOOD_QUERY);
           size="lg"
         />
       </div>
-      <!-- <pre>{{ foodByCategories }}</pre> -->
       <div class="flex flex-wrap items-center justify-center my-3">
         <select-atom
           class="mx-1 mb-1 select-filter"
@@ -92,8 +90,17 @@ const { result } = useQuery(FOOD_QUERY);
       </div>
     </template>
   </header-organism>
-  <div v-if="result" class="container mx-auto my-16">
-    <food-grid-organism :food-by-categories="result.getFoodByCategories" />
+  <div v-if="foodByCategories" class="container mx-auto my-16">
+    <food-grid-organism
+      :food-by-categories="
+        foodByCategories(
+          search,
+          categoriesSelected,
+          seasonsSelected,
+          booleanAllergensSelected
+        )
+      "
+    />
   </div>
 </template>
 
