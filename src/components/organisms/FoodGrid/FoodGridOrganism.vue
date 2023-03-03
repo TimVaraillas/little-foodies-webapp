@@ -13,7 +13,9 @@ const props = defineProps<{
     v-for="category in props.foodByCategories"
     :key="category"
   >
-    <text-atom class="col-span-12 text-center mb-6" size="3xl" weight="bold">{{ category.category }}</text-atom>
+    <text-atom class="col-span-12 text-center mb-6" size="3xl" weight="bold">
+      {{ category.category }}
+    </text-atom>
     <food-item-molecule
       v-for="item in category.food"
       :key="item"
