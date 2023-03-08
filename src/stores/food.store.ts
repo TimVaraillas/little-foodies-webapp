@@ -1,89 +1,86 @@
 import { defineStore } from "pinia";
-import { computed } from "vue";
-import { useQuery } from "@vue/apollo-composable";
-import gql from "graphql-tag";
+import axios from "axios";
 import { intersection } from "lodash";
 
 import type Food from "@/types/food.type";
 
-export const useFoodStore = defineStore("food", () => {
-  const { loading, result } = useQuery(gql`
-    query getFoods {
-      getCategories {
-        id: _id
-        name
+export const useFoodStore = defineStore("food", {
+  state: () => ({
+    categories: [] as any[],
+    foods: [] as Food[],
+  }),
+
+  getters: {
+    filteredFood(state) {
+      return (
+        search: string = "",
+        categories: string[] | null = [],
+        seasons: string[] | null = [],
+        introductoryMonth: number | null = null,
+        allergens: boolean | null = null
+      ): Food[] => {
+        return state.foods.filter((f: Food) => {
+          if (search && !f.name.toLowerCase().includes(search.toLowerCase())) {
+            return false;
+          }
+          if (categories?.length && !categories.includes(f.category.id)) {
+            return false;
+          }
+          if (seasons?.length && !intersection(f.season, seasons).length) {
+            return false;
+          }
+          if (introductoryMonth && f.introductory_month > introductoryMonth) {
+            return false;
+          }
+          if (
+            typeof allergens === "boolean" &&
+            allergens !== f.main_allergens
+          ) {
+            return false;
+          }
+          return true;
+        });
+      };
+    },
+
+    foodByCategories() {
+      return (...args: any): any[] =>
+        this.filteredFood(...args).reduce((acc: any[], value: Food) => {
+          const category = value.category?.name;
+          const index = acc.findIndex((g) => g.category === category);
+          if (index > -1) {
+            acc[index].food.push(value);
+          } else {
+            acc.push({
+              category,
+              food: [value],
+            });
+          }
+          return acc;
+        }, []);
+    },
+
+    countFood(state): number {
+      return state.foods.length;
+    },
+  },
+
+  actions: {
+    async fetchFoods() {
+      try {
+        const response = await axios.get("http://127.0.0.1:3000/foods");
+        this.foods = response.data as Food[];
+      } catch (error) {
+        console.log(error);
       }
-      getFoods {
-        id: _id
-        name
-        image
-        season
-        main_allergens
-        introductory_month
-        category {
-          id: _id
-          name
-        }
+    },
+    async fetchCategories() {
+      try {
+        const response = await axios.get("http://127.0.0.1:3000/categories");
+        this.categories = response.data as any[];
+      } catch (error) {
+        console.log(error);
       }
-    }
-  `);
-
-  const categories = computed(
-    () => (result.value?.getCategories ?? []) as any[]
-  );
-  const food = computed(() => (result.value?.getFoods ?? []) as Food[]);
-
-  const filteredFood = computed(() => {
-    return (
-      search: string = "",
-      categories: string[] | null = [],
-      seasons: string[] | null = [],
-      introductoryMonth: number | null = null,
-      allergens: boolean | null = null
-    ): Food[] => {
-      return food.value.filter((f: Food) => {
-        if (search && !f.name.toLowerCase().includes(search.toLowerCase())) {
-          return false;
-        }
-        if (categories?.length && !categories.includes(f.category.id)) {
-          return false;
-        }
-        if (seasons?.length && !intersection(f.season, seasons).length) {
-          return false;
-        }
-        if (introductoryMonth && f.introductory_month > introductoryMonth) {
-          return false;
-        }
-        if (typeof allergens === "boolean" && allergens !== f.main_allergens) {
-          return false;
-        }
-        return true;
-      });
-    };
-  });
-
-  const foodByCategories = computed(() => {
-    return (...args: any): any[] =>
-      filteredFood.value(...args).reduce((acc: any[], value: Food) => {
-        const category = value.category?.name;
-        const index = acc.findIndex((g) => g.category === category);
-        if (index > -1) {
-          acc[index].food.push(value);
-        } else {
-          acc.push({
-            category,
-            food: [value],
-          });
-        }
-        return acc;
-      }, []);
-  });
-
-  return {
-    loading,
-    categories,
-    food,
-    foodByCategories,
-    filteredFood,
-  };
+    },
+  },
 });
