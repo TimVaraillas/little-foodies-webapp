@@ -1,4 +1,3 @@
-
 import { Meta, Story } from "@storybook/vue3";
 import NavBarOrganism from "./NavBarOrganism.vue";
 

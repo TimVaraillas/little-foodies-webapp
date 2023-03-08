@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import FoodGridPage from "@components/pages/FoodGrid/FoodGrid.page.vue";
+import FoodGridPage from "@/components/pages/FoodGrid/FoodGridPage.vue";
 </script>
 
 <template>

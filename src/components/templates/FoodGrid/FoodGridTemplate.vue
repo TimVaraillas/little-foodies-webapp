@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { computed } from "vue";
 
-import NavBar from "@components/organisms/NavBar/NavBarOrganism.vue";
-import HeaderOrganism from "@components/organisms/Header/HeaderOrganism.vue";
-import InputText from "@components/atoms/InputText/InputTextAtom.vue";
+import InputTextAtom from "@components/atoms/InputText/InputTextAtom.vue";
 import SelectAtom from "@components/atoms/Select/SelectAtom.vue";
-import FoodGridOrganism from "@components/organisms/FoodGrid/FoodGridOrganism.vue";
+import NavBarOrganism from "@components/organisms/NavBar/NavBarOrganism.vue";
+import HeaderOrganism from "@components/organisms/Header/HeaderOrganism.vue";
+import FoodGridOrganism from "@/components/organisms/FoodGrid/FoodGridOrganism.vue";
 
 const props = defineProps<{
   pageTitle?: string;
@@ -70,7 +70,7 @@ const internalAllergens = computed({
 </script>
 
 <template>
-  <nav-bar />
+  <nav-bar-organism />
   <header-organism :title="props.pageTitle">
     <template #subtitle>
       <span v-html="props.pageSubtitle"></span>
@@ -78,7 +78,7 @@ const internalAllergens = computed({
 
     <template #content>
       <div class="w-full grid grid-cols-12 gap-4">
-        <input-text
+        <input-text-atom
           class="col-start-3 col-span-8 focus:outline-none"
           v-model="internalSearch"
           placeholder="Rechercher des aliments"

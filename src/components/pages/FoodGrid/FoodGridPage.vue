@@ -4,7 +4,7 @@ import { storeToRefs } from "pinia";
 
 import { useFoodStore } from "@/stores/food.store";
 
-import FoodGridTemplate from "@/components/templates/FoodGrid/FoodGrid.template.vue";
+import FoodGridTemplate from "@/components/templates/FoodGrid/FoodGridTemplate.vue";
 
 const store = useFoodStore();
 const { categories: categoriesOptions } = storeToRefs(store);

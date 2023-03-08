@@ -1,4 +1,3 @@
-
 import { Meta, Story } from "@storybook/vue3";
 import HeaderOrganism from "./HeaderOrganism.vue";
 
