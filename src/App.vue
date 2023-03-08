@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import HomePage from "@components/pages/HomePage/HomePage.vue";
+import FoodGridPage from "@components/pages/FoodGrid/FoodGrid.page.vue";
 </script>
 
 <template>
-  <HomePage title="Little foodies" />
+  <FoodGridPage />
 </template>
 
 <style scoped></style>
