@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import FoodGridPage from "@/components/pages/FoodGrid/FoodGridPage.vue";
+import { RouterView } from "vue-router";
 </script>
 
 <template>
-  <FoodGridPage />
+  <RouterView />
 </template>
 
 <style scoped></style>
