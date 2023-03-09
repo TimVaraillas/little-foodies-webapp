@@ -11,7 +11,7 @@ export const useAuthStore = defineStore("auth", () => {
     localStorage.getItem("token")
   );
   const user: Ref<User | null | undefined> = ref(
-    JSON.parse(localStorage.getItem("user") ?? "")
+    JSON.parse(localStorage.getItem("user") || "null")
   );
 
   const fetchUser = async () => {
