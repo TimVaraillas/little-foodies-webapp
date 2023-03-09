@@ -68,7 +68,7 @@ export const useFoodStore = defineStore("food", {
   actions: {
     async fetchFoods() {
       try {
-        const response = await axios.get("http://127.0.0.1:3000/foods");
+        const response = await axios.get("http://localhost:3000/foods");
         this.foods = response.data as Food[];
       } catch (error) {
         console.log(error);
@@ -76,7 +76,7 @@ export const useFoodStore = defineStore("food", {
     },
     async fetchCategories() {
       try {
-        const response = await axios.get("http://127.0.0.1:3000/categories");
+        const response = await axios.get("http://localhost:3000/categories");
         this.categories = response.data as any[];
       } catch (error) {
         console.log(error);

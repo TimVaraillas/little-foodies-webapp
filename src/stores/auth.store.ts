@@ -1,52 +1,54 @@
+import { ref, Ref } from "vue";
 import { defineStore } from "pinia";
 import axios from "axios";
-
 import { setAuthToken } from "@/helpers/authToken";
+import { router } from "@/helpers/router";
 
-export const useAuthStore = defineStore("auth", {
-  state: () => ({
-    token: localStorage.getItem("token"),
-    user: localStorage.getItem("user"),
-  }),
+import type AuthenticationCreditials from "@/types/authenticationCreditials.type";
 
-  actions: {
-    async login(email: string, password: string) {
-      try {
-        const response = await axios.post("http://localhost:3000/auth", {
-          email,
-          password,
-        });
+export const useAuthStore = defineStore("auth", () => {
+  const token: Ref<string | null | undefined> = ref(
+    localStorage.getItem("token")
+  );
+  const user: Ref<string | null | undefined> = ref(
+    JSON.parse(localStorage.getItem("user") ?? "")
+  );
 
-        localStorage.setItem("token", response.data?.token);
-        this.token = response.data?.token;
+  const fetchUser = async () => {
+    if (localStorage.token) {
+      setAuthToken(localStorage.token);
+    }
+    try {
+      const response = await axios.get("http://localhost:3000/auth");
+      localStorage.setItem("user", JSON.stringify(response.data));
+      user.value = response.data;
+      router.push({ path: "/" });
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
-        await this.fetchUser();
-      } catch (err) {
-        console.log(err);
-      }
-    },
+  const login = async (credicials: AuthenticationCreditials) => {
+    try {
+      const response = await axios.post(
+        "http://localhost:3000/auth",
+        credicials
+      );
+      localStorage.setItem("token", response.data?.token);
+      token.value = response.data?.token;
+      await fetchUser();
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
-    logout() {
-      this.token = null;
-      localStorage.removeItem("token");
-      this.user = null;
-      localStorage.removeItem("user");
-      // router.push('/login');
-    },
+  const logout = () => {
+    token.value = null;
+    user.value = null;
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    router.push("/login");
+  };
 
-    async fetchUser() {
-      if (localStorage.token) {
-        setAuthToken(localStorage.token);
-      }
-      try {
-        const response = await axios.get("http://localhost:3000/auth");
-        localStorage.setItem("token", response.data);
-        this.user = response.data;
-        // router.push({ path: "/" }).catch(() => {});
-      } catch (err) {
-        console.log(err);
-      }
-      return;
-    },
-  },
+  return { token, user, fetchUser, login, logout };
 });
