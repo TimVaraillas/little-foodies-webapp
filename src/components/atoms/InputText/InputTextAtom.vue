@@ -56,7 +56,7 @@ const inputClass = {
       :placeholder="props.placeholder"
     />
     <button
-      v-if="props.clearable"
+      v-if="props.clearable && internalValue"
       type="button"
       class="flex items-center ml-2 text-slate-400 hover:text-slate-800"
       @click="clearValue"
