@@ -1,22 +1,27 @@
 <script setup lang="ts">
 import { ref, Ref, computed, onMounted } from "vue";
-import { storeToRefs } from "pinia";
-
-import { useFoodStore } from "@/stores/food.store";
 
 import FoodGridTemplate from "@/components/templates/FoodGrid/FoodGridTemplate.vue";
 
-const store = useFoodStore();
-const { categories: categoriesOptions } = storeToRefs(store);
+import { useFoodStore } from "@/stores/food.store";
 
-const foodByCategories = computed(() =>
-  store.foodByCategories(
+import type { FoodsByCategory } from "@/types/food.type";
+import type { SelectOption } from "@/types/select.type";
+
+const store = useFoodStore();
+
+const foodByCategories = computed((): FoodsByCategory[] =>
+  store.foodsByCategories(
     search.value,
     categories.value,
     seasons.value,
     introductoryAge.value,
     allergens.value
   )
+);
+
+const categoriesSelectOptions = computed(
+  (): SelectOption[] => store.categoriesSelectOptions
 );
 
 const pageSubtitle = ref("<b>Jules</b> a déjà goûté...");
@@ -30,7 +35,7 @@ const allergens: Ref<boolean | null> = ref(null);
 const filtersStructure = {
   categories: {
     placeholder: "Catégorie",
-    options: categoriesOptions,
+    options: [],
     closeOnSelect: false,
     valueProp: "id",
     labelProp: "name",

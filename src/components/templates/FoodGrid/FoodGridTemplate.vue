@@ -7,6 +7,8 @@ import NavBarOrganism from "@components/organisms/NavBar/NavBarOrganism.vue";
 import HeaderOrganism from "@components/organisms/Header/HeaderOrganism.vue";
 import FoodGridOrganism from "@/components/organisms/FoodGrid/FoodGridOrganism.vue";
 
+import type { FoodsByCategory } from "@/types/food.type";
+
 const props = defineProps<{
   pageTitle?: string;
   pageSubtitle?: string;
@@ -21,7 +23,7 @@ const props = defineProps<{
   seasons: string[];
   introductoryAge: number | null;
   allergens: boolean | null;
-  foodByCategories: any[];
+  foodByCategories: FoodsByCategory[];
 }>();
 
 const emit = defineEmits([
