@@ -1,12 +1,38 @@
 <script setup lang="ts">
-import AvatarAtom from "@/components/atoms/Avatar/AvatarAtom.vue";
-import { ref } from "vue";
+import { ref, Ref } from "vue";
 
-const hideDropdown = ref(true);
+import AvatarAtom from "@/components/atoms/Avatar/AvatarAtom.vue";
+
+import type { MenuItem } from "@/types/menu.type";
+import type { User } from "@/types/user.type";
+
+const hideDropdown: Ref<boolean> = ref(true);
 
 const onCloseDropdownMenu = () => {
   hideDropdown.value = true;
 };
+
+const user: Ref<User> = ref({
+  first_name: "John",
+  last_name: "Doe",
+  email: "john.doe@acme.com",
+});
+
+const menu: Ref<MenuItem[][]> = ref([
+  [
+    {
+      name: "Ma famille",
+      handler: () => {},
+    },
+  ],
+  [
+    {
+      name: "Se déconnecter",
+      handler: () => {},
+      color: "rose-500",
+    },
+  ],
+]);
 </script>
 
 <template>
@@ -25,24 +51,31 @@ const onCloseDropdownMenu = () => {
 
     <div
       v-show="!hideDropdown"
-      class="z-10 right-0 mt-2 absolute bg-white divide-y divide-gray-100 rounded-lg shadow"
+      class="z-10 right-0 mt-2 absolute bg-white divide-y divide-slate-100 rounded-lg shadow"
     >
-      <div class="px-4 py-3 text-sm text-gray-900">
-        <div>Tim Varaillas</div>
-        <div class="font-medium truncate">timothee.varaillas@gmail.com</div>
+      <div class="px-4 py-3 text-sm text-slate-800">
+        <div>{{ user.first_name }} {{ user.last_name }}</div>
+        <div class="font-medium">{{ user.email }}</div>
       </div>
-      <ul class="py-2 text-sm text-gray-700" aria-labelledby="avatarButton">
-        <li>
-          <a href="#" class="block px-4 py-2 hover:bg-gray-100">Profil</a>
+      <ul
+        v-for="(menuGroup, index) in menu"
+        :key="index"
+        class="py-1 text-sm text-slate-700"
+        aria-labelledby="avatarButton"
+      >
+        <li
+          v-for="item of menuGroup"
+          :key="item.name"
+          @click="() => item.handler"
+        >
+          <span
+            class="block px-4 py-2 hover:bg-slate-100 cursor-pointer"
+            :class="[...(item.color ? [`text-${item.color}`] : [])]"
+          >
+            {{ item.name }}
+          </span>
         </li>
       </ul>
-      <div class="py-1">
-        <a
-          href="#"
-          class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-          >Se déconnecter</a
-        >
-      </div>
     </div>
   </div>
 </template>
