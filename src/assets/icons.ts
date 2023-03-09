@@ -5,6 +5,7 @@ import {
   faLock,
   faEye,
   faEyeSlash,
+  faCaretDown,
 } from "@fortawesome/free-solid-svg-icons";
 
 export default [
@@ -14,4 +15,5 @@ export default [
   faLock,
   faEye,
   faEyeSlash,
+  faCaretDown,
 ];
