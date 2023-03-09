@@ -24,7 +24,7 @@ export const useFoodStore = defineStore("food", () => {
         if (search && !f.name.toLowerCase().includes(search.toLowerCase())) {
           return false;
         }
-        if (categories?.length && !categories.includes(f.category.id)) {
+        if (categories?.length && !categories.includes(f.category._id)) {
           return false;
         }
         if (seasons?.length && !intersection(f.season, seasons).length) {

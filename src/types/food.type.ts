@@ -3,10 +3,7 @@ type Season = "spring" | "summer" | "automn" | "winter";
 export interface Food {
   _id: string;
   name: string;
-  category: {
-    id: string;
-    name: string;
-  };
+  category: Category;
   season: Season[];
   introductory_month: number;
   main_allergens: boolean;

@@ -1,7 +1,11 @@
 <script setup lang="ts">
 import { ref, Ref, computed, onMounted } from "vue";
 
-import FoodGridTemplate from "@/components/templates/FoodGrid/FoodGridTemplate.vue";
+import InputTextAtom from "@components/atoms/InputText/InputTextAtom.vue";
+import SelectAtom from "@components/atoms/Select/SelectAtom.vue";
+import NavBarOrganism from "@components/organisms/NavBar/NavBarOrganism.vue";
+import HeaderOrganism from "@components/organisms/Header/HeaderOrganism.vue";
+import FoodGridOrganism from "@/components/organisms/FoodGrid/FoodGridOrganism.vue";
 
 import { useFoodStore } from "@/stores/food.store";
 
@@ -20,53 +24,31 @@ const foodByCategories = computed((): FoodsByCategory[] =>
   )
 );
 
-const categoriesSelectOptions = computed(
-  (): SelectOption[] => store.categoriesSelectOptions
-);
-
-const pageSubtitle = ref("<b>Jules</b> a déjà goûté...");
-
 const search: Ref<string> = ref("");
 const categories: Ref<any[]> = ref([]);
 const seasons: Ref<any[]> = ref([]);
 const introductoryAge: Ref<number | null> = ref(null);
 const allergens: Ref<boolean | null> = ref(null);
 
-const filtersStructure = {
-  categories: {
-    placeholder: "Catégorie",
-    options: [],
-    closeOnSelect: false,
-    valueProp: "id",
-    labelProp: "name",
-  },
-  seasons: {
-    placeholder: "Saison",
-    options: [
-      { value: "spring", label: "Printemps" },
-      { value: "summer", label: "Été" },
-      { value: "automn", label: "Automne" },
-      { value: "winter", label: "Hiver" },
-    ],
-    closeOnSelect: false,
-  },
-  introductoryAge: {
-    placeholder: "Âge d'introduction",
-    options: [
-      { value: "4", label: "à partir de 4 mois" },
-      { value: "6", label: "à partir de 6 mois" },
-      { value: "9", label: "à partir de 9 mois" },
-      { value: "12", label: "à partir de 12 mois" },
-    ],
-  },
-  allergens: {
-    placeholder: "Présence d'allergènes majeurs",
-    options: [
-      { value: "Oui", label: "Oui" },
-      { value: "Non", label: "Non" },
-    ],
-  },
-};
+const categoriesSelectOptions = computed(
+  (): SelectOption[] => store.categoriesSelectOptions
+);
+const seasonsSelectOptions: Ref<SelectOption[]> = ref([
+  { value: "spring", label: "Printemps" },
+  { value: "summer", label: "Été" },
+  { value: "automn", label: "Automne" },
+  { value: "winter", label: "Hiver" },
+]);
+const introductoryAgeSelectOptions: Ref<SelectOption[]> = ref([
+  { value: "4", label: "à partir de 4 mois" },
+  { value: "6", label: "à partir de 6 mois" },
+  { value: "9", label: "à partir de 9 mois" },
+  { value: "12", label: "à partir de 12 mois" },
+]);
+const allergensSelectOptions: Ref<SelectOption[]> = ref([
+  { value: "Oui", label: "Oui" },
+  { value: "Non", label: "Non" },
+]);
 
 onMounted(async () => {
   await store.fetchCategories();
@@ -75,17 +57,64 @@ onMounted(async () => {
 </script>
 
 <template>
-  <FoodGridTemplate
-    page-title="Diversification alimentaire"
-    :page-subtitle="pageSubtitle"
-    :filters-structure="filtersStructure"
-    v-model:search="search"
-    v-model:categories="categories"
-    v-model:seasons="seasons"
-    v-model:introductory-age="introductoryAge"
-    v-model:allergens="allergens"
-    :food-by-categories="foodByCategories"
-  />
+  <nav-bar-organism />
+  <header-organism title="Diversification alimentaire">
+    <template #subtitle>
+      <span><b>Jules</b> a déjà goûté...</span>
+    </template>
+
+    <template #content>
+      <div class="w-full grid grid-cols-12 gap-4">
+        <input-text-atom
+          class="col-start-3 col-span-8"
+          v-model="search"
+          placeholder="Rechercher des aliments"
+          prepend-icon="fa-solid fa-magnifying-glass"
+          clearable
+          size="lg"
+        />
+      </div>
+      <div class="flex flex-wrap items-center justify-center my-3">
+        <select-atom
+          class="mx-1 mb-1 select-filter"
+          size="sm"
+          mode="tags"
+          placeholder="Catégories"
+          v-model="categories"
+          :closeOnSelect="false"
+          :options="categoriesSelectOptions"
+        />
+        <select-atom
+          class="mx-1 mb-1 select-filter"
+          size="sm"
+          mode="tags"
+          placeholder="Saisons"
+          v-model="seasons"
+          :closeOnSelect="false"
+          :options="seasonsSelectOptions"
+        />
+        <select-atom
+          class="mx-1 mb-1 select-filter"
+          size="sm"
+          mode="single"
+          placeholder="Âge d'introduction"
+          v-model="introductoryAge"
+          :options="introductoryAgeSelectOptions"
+        />
+        <select-atom
+          class="mx-1 mb-1 select-filter"
+          size="sm"
+          mode="single"
+          placeholder="Présence d'allergènes majeurs"
+          v-model="allergens"
+          :options="allergensSelectOptions"
+        />
+      </div>
+    </template>
+  </header-organism>
+  <div v-if="foodByCategories" class="container mx-auto my-16">
+    <food-grid-organism :food-by-categories="foodByCategories" />
+  </div>
 </template>
 
 <style scoped lang="scss">
