@@ -4,13 +4,13 @@ import axios from "axios";
 import { setAuthToken } from "@/helpers/authToken";
 import { router } from "@/helpers/router";
 
-import type AuthenticationCreditials from "@/types/authenticationCreditials.type";
+import type { User, AuthenticationCreditials } from "@/types/user.type";
 
 export const useAuthStore = defineStore("auth", () => {
   const token: Ref<string | null | undefined> = ref(
     localStorage.getItem("token")
   );
-  const user: Ref<string | null | undefined> = ref(
+  const user: Ref<User | null | undefined> = ref(
     JSON.parse(localStorage.getItem("user") ?? "")
   );
 
@@ -20,8 +20,8 @@ export const useAuthStore = defineStore("auth", () => {
     }
     try {
       const response = await axios.get("http://localhost:3000/auth");
-      localStorage.setItem("user", JSON.stringify(response.data));
-      user.value = response.data;
+      localStorage.setItem("user", JSON.stringify(response.data as User));
+      user.value = response.data as User;
       router.push({ path: "/" });
     } catch (err) {
       console.log(err);
