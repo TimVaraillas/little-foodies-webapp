@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import HeaderTitle from "@components/atoms/HeaderTitle/HeaderTitleAtom.vue";
-import HeaderSubtitle from "@components/atoms/HeaderSubtitle/HeaderSubtitleAtom.vue";
+import TitleAtom from "@components/atoms/Title/TitleAtom.vue";
+import SubtitleAtom from "@components/atoms/Subtitle/SubtitleAtom.vue";
 
 const props = defineProps<{
   title?: string;
@@ -12,16 +12,14 @@ const props = defineProps<{
   <div class="bg-amber-100 py-14">
     <div class="container flex flex-col items-center justify-center mx-auto">
       <div class="title mb-3">
-        <header-title v-if="props.title" :text="props.title" />
-        <header-title v-else>
-          <slot name="title"></slot>
-        </header-title>
+        <title-atom v-if="props.title" :text="props.title" />
+        <title-atom v-else><slot name="title"></slot></title-atom>
       </div>
       <div class="subtitle">
-        <header-subtitle v-if="props.subtitle" :text="props.subtitle" />
-        <header-subtitle v-else>
+        <subtitle-atom v-if="props.subtitle" :text="props.subtitle" />
+        <subtitle-atom v-else>
           <slot name="subtitle"></slot>
-        </header-subtitle>
+        </subtitle-atom>
       </div>
       <div class="mt-12 w-full">
         <slot name="content"></slot>

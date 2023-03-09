@@ -1,18 +1,17 @@
-
 import { Meta, Story } from "@storybook/vue3";
-import HeaderTitleAtom from "./HeaderTitleAtom.vue";
+import TitleAtom from "./TitleAtom.vue";
 
 export default {
-  title: "Atoms/HeaderTitleAtom",
-  component: HeaderTitleAtom,
+  title: "Atoms/TitleAtom",
+  component: TitleAtom,
 } as Meta;
 
 const Template = (args: any) => ({
-  components: { HeaderTitleAtom },
+  components: { TitleAtom },
   setup() {
     return { args };
   },
-  template: '<header-title-atom v-bind="args" />',
+  template: '<title-atom v-bind="args" />',
 });
 
 export const Standard: Story = Template.bind({});
