@@ -12,10 +12,10 @@ import { useFoodStore } from "@/stores/food.store";
 import type { FoodsByCategory } from "@/types/food.type";
 import type { SelectOption } from "@/types/select.type";
 
-const store = useFoodStore();
+const foodStore = useFoodStore();
 
 const foodByCategories = computed((): FoodsByCategory[] =>
-  store.foodsByCategories(
+  foodStore.foodsByCategories(
     search.value,
     categories.value,
     seasons.value,
@@ -31,7 +31,7 @@ const introductoryAge: Ref<number | null> = ref(null);
 const allergens: Ref<boolean | null> = ref(null);
 
 const categoriesSelectOptions = computed(
-  (): SelectOption[] => store.categoriesSelectOptions
+  (): SelectOption[] => foodStore.categoriesSelectOptions
 );
 const seasonsSelectOptions: Ref<SelectOption[]> = ref([
   { value: "spring", label: "Printemps" },
@@ -51,8 +51,8 @@ const allergensSelectOptions: Ref<SelectOption[]> = ref([
 ]);
 
 onMounted(async () => {
-  await store.fetchCategories();
-  await store.fetchFoods();
+  await foodStore.fetchCategories();
+  await foodStore.fetchFoods();
 });
 </script>
 
