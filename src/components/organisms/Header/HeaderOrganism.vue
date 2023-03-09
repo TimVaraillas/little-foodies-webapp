@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import TitleAtom from "@components/atoms/Title/TitleAtom.vue";
-import SubtitleAtom from "@components/atoms/Subtitle/SubtitleAtom.vue";
+import TitleAtom from "@/components/atoms/Title/TitleAtom.vue";
+import SubtitleAtom from "@/components/atoms/Subtitle/SubtitleAtom.vue";
 
 const props = defineProps<{
   title?: string;

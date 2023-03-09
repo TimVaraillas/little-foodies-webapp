@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import FoodItemMolecule from "@components/molecules/FoodItem/FoodItemMolecule.vue";
-import TextAtom from "@components/atoms/Text/TextAtom.vue";
+import FoodItemMolecule from "@/components/molecules/FoodItem/FoodItemMolecule.vue";
+import TextAtom from "@/components/atoms/Text/TextAtom.vue";
 
 import type { FoodsByCategory } from "@/types/food.type";
 

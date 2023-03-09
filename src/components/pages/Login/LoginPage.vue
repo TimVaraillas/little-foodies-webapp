@@ -1,23 +1,23 @@
 <script setup lang="ts">
 import { ref, Ref } from "vue";
 
-import ButtonAtom from "@components/atoms/Button/ButtonAtom.vue";
-import TextAtom from "@components/atoms/Text/TextAtom.vue";
-import TitleAtom from "@components/atoms/Title/TitleAtom.vue";
-import InputTextAtom from "@components/atoms/InputText/InputTextAtom.vue";
-import InputPasswordAtom from "@components/atoms/InputPassword/InputPasswordAtom.vue";
-import NavBarOrganism from "@components/organisms/NavBar/NavBarOrganism.vue";
+import ButtonAtom from "@/components/atoms/Button/ButtonAtom.vue";
+import TextAtom from "@/components/atoms/Text/TextAtom.vue";
+import TitleAtom from "@/components/atoms/Title/TitleAtom.vue";
+import InputTextAtom from "@/components/atoms/InputText/InputTextAtom.vue";
+import InputPasswordAtom from "@/components/atoms/InputPassword/InputPasswordAtom.vue";
+import NavBarOrganism from "@/components/organisms/NavBar/NavBarOrganism.vue";
 
-import type AuthenticationCreditials from "@/types/authenticationCreditials.type";
+import { useAuthStore } from "@/stores/auth.store";
+
+import type { AuthenticationCreditials } from "@/types/user.type";
+
+const authStore = useAuthStore();
 
 const creditials: Ref<AuthenticationCreditials> = ref({
   email: "",
   password: "",
 });
-
-const login = () => {
-  console.log(creditials);
-};
 </script>
 
 <template>
@@ -46,7 +46,10 @@ const login = () => {
           clearable
           size="md"
         />
-        <button-atom class="mt-6 col-start-5 col-span-4" @click="login">
+        <button-atom
+          class="mt-6 col-start-5 col-span-4"
+          @click="() => authStore.login(creditials)"
+        >
           Se connecter
         </button-atom>
       </div>

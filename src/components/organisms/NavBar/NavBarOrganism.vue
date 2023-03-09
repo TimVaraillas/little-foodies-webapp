@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import AppTitle from "@components/atoms/AppTitle/AppTitleAtom.vue";
+import AppTitle from "@/components/atoms/AppTitle/AppTitleAtom.vue";
 
 const props = withDefaults(defineProps<{ appTitle?: string }>(), {
   appTitle: "Little foodies",

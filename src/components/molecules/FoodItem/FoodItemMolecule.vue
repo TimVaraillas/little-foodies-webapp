@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import ImageAtom from "@components/atoms/Image/ImageAtom.vue";
-import TextAtom from "@components/atoms/Text/TextAtom.vue";
+import ImageAtom from "@/components/atoms/Image/ImageAtom.vue";
+import TextAtom from "@/components/atoms/Text/TextAtom.vue";
 
 const props = defineProps<{
   image?: string;
