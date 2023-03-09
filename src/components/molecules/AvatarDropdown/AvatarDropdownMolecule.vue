@@ -2,37 +2,21 @@
 import { ref, Ref } from "vue";
 
 import AvatarAtom from "@/components/atoms/Avatar/AvatarAtom.vue";
+import MenuMolecule from "@/components/molecules/Menu/MenuMolecule.vue";
 
 import type { MenuItem } from "@/types/menu.type";
 import type { User } from "@/types/user.type";
+
+const props = defineProps<{
+  user: User;
+  menu: MenuItem[][];
+}>();
 
 const hideDropdown: Ref<boolean> = ref(true);
 
 const onCloseDropdownMenu = () => {
   hideDropdown.value = true;
 };
-
-const user: Ref<User> = ref({
-  first_name: "John",
-  last_name: "Doe",
-  email: "john.doe@acme.com",
-});
-
-const menu: Ref<MenuItem[][]> = ref([
-  [
-    {
-      name: "Ma famille",
-      handler: () => {},
-    },
-  ],
-  [
-    {
-      name: "Se déconnecter",
-      handler: () => {},
-      color: "rose-500",
-    },
-  ],
-]);
 </script>
 
 <template>
@@ -49,33 +33,17 @@ const menu: Ref<MenuItem[][]> = ref([
       />
     </button>
 
-    <div
+    <menu-molecule
       v-show="!hideDropdown"
-      class="z-10 right-0 mt-2 absolute bg-white divide-y divide-slate-100 rounded-lg shadow"
+      class="z-10 right-0 mt-2 absolute shadow"
+      :menu="props.menu"
     >
-      <div class="px-4 py-3 text-sm text-slate-800">
-        <div>{{ user.first_name }} {{ user.last_name }}</div>
-        <div class="font-medium">{{ user.email }}</div>
-      </div>
-      <ul
-        v-for="(menuGroup, index) in menu"
-        :key="index"
-        class="py-1 text-sm text-slate-700"
-        aria-labelledby="avatarButton"
-      >
-        <li
-          v-for="item of menuGroup"
-          :key="item.name"
-          @click="() => item.handler"
-        >
-          <span
-            class="block px-4 py-2 hover:bg-slate-100 cursor-pointer"
-            :class="[...(item.color ? [`text-${item.color}`] : [])]"
-          >
-            {{ item.name }}
-          </span>
-        </li>
-      </ul>
-    </div>
+      <template #prepend>
+        <div class="px-4 py-3 text-sm text-slate-800">
+          <div>{{ user.first_name }} {{ user.last_name }}</div>
+          <div class="font-medium">{{ user.email }}</div>
+        </div>
+      </template>
+    </menu-molecule>
   </div>
 </template>
