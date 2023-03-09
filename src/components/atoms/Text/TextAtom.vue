@@ -39,7 +39,7 @@ interface Props {
   letterSpacing?: LetterSpacing;
   size?: Size;
   style?: "normal" | "italic";
-  weight: Weight;
+  weight?: Weight;
 }
 
 const props = withDefaults(defineProps<Props>(), {

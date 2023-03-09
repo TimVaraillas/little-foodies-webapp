@@ -79,7 +79,7 @@ const internalAllergens = computed({
     <template #content>
       <div class="w-full grid grid-cols-12 gap-4">
         <input-text-atom
-          class="col-start-3 col-span-8 focus:outline-none"
+          class="col-start-3 col-span-8"
           v-model="internalSearch"
           placeholder="Rechercher des aliments"
           prepend-icon="fa-solid fa-magnifying-glass"
@@ -122,7 +122,6 @@ const internalAllergens = computed({
   <div v-if="foodByCategories" class="container mx-auto my-16">
     <food-grid-organism :food-by-categories="foodByCategories" />
   </div>
-  <div class="container mx-auto my-16"></div>
 </template>
 
 <style scoped lang="scss">
