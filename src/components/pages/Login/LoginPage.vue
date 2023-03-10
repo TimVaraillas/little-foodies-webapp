@@ -6,7 +6,6 @@ import TextAtom from "@/components/atoms/Text/TextAtom.vue";
 import TitleAtom from "@/components/atoms/Title/TitleAtom.vue";
 import InputTextAtom from "@/components/atoms/InputText/InputTextAtom.vue";
 import InputPasswordAtom from "@/components/atoms/InputPassword/InputPasswordAtom.vue";
-import NavBarOrganism from "@/components/organisms/NavBar/NavBarOrganism.vue";
 
 import { useAuthStore } from "@/stores/auth.store";
 
@@ -21,7 +20,6 @@ const creditials: Ref<AuthenticationCreditials> = ref({
 </script>
 
 <template>
-  <nav-bar-organism />
   <div class="wrapper py-20 bg-amber-100 w-full h-screen">
     <div class="container mx-auto flex flex-col items-center">
       <title-atom>Se connecter</title-atom>

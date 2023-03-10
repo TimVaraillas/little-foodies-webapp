@@ -3,7 +3,6 @@ import { ref, Ref, computed, onMounted } from "vue";
 
 import InputTextAtom from "@/components/atoms/InputText/InputTextAtom.vue";
 import SelectAtom from "@/components/atoms/Select/SelectAtom.vue";
-import NavBarOrganism from "@/components/organisms/NavBar/NavBarOrganism.vue";
 import HeaderOrganism from "@/components/organisms/Header/HeaderOrganism.vue";
 import FoodGridOrganism from "@/components/organisms/FoodGrid/FoodGridOrganism.vue";
 
@@ -57,7 +56,6 @@ onMounted(async () => {
 </script>
 
 <template>
-  <nav-bar-organism />
   <header-organism title="Diversification alimentaire">
     <template #subtitle>
       <span><b>Jules</b> a déjà goûté...</span>
