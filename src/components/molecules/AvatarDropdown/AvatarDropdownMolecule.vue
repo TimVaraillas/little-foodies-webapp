@@ -2,6 +2,7 @@
 import { ref, Ref } from "vue";
 
 import AvatarAtom from "@/components/atoms/Avatar/AvatarAtom.vue";
+import IconAtom from "@/components/atoms/Icon/IconAtom.vue";
 import MenuMolecule from "@/components/molecules/Menu/MenuMolecule.vue";
 
 import type { MenuItem } from "@/types/menu.type";
@@ -27,10 +28,7 @@ const onCloseDropdownMenu = () => {
       @click="() => (hideDropdown = !hideDropdown)"
     >
       <avatar-atom />
-      <font-awesome-icon
-        class="ml-2 text-xs text-slate-700"
-        icon="fa-solid fa-caret-down"
-      />
+      <icon-atom class="ml-2 text-xs text-slate-700" icon="caret-down" />
     </button>
 
     <menu-molecule

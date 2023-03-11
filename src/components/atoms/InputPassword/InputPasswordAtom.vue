@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { computed, ref, Ref } from "vue";
 
+import IconAtom from "@/components/atoms/Icon/IconAtom.vue";
+
 type Size = "xs" | "sm" | "md" | "lg" | "xl";
 
 interface Props {
@@ -51,7 +53,7 @@ const hidePassword: Ref<boolean> = ref(true);
       v-if="props.prependIcon"
       class="flex items-center pointer-events-none mr-3 text-slate-400"
     >
-      <font-awesome-icon :icon="props.prependIcon" />
+      <icon-atom :icon="props.prependIcon" />
     </div>
     <input
       :type="hidePassword ? 'password' : 'text'"
@@ -65,7 +67,7 @@ const hidePassword: Ref<boolean> = ref(true);
       class="flex items-center ml-2 text-slate-400 hover:text-slate-800"
       @click="clearValue"
     >
-      <font-awesome-icon class="text-xs" icon="fa-solid fa-xmark" />
+      <icon-atom icon="xmark" />
     </button>
     <button
       v-if="props.viewable"
@@ -73,10 +75,7 @@ const hidePassword: Ref<boolean> = ref(true);
       class="flex items-center ml-2 text-slate-400 hover:text-slate-800"
       @click="() => (hidePassword = !hidePassword)"
     >
-      <font-awesome-icon
-        class="text-xs"
-        :icon="hidePassword ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash'"
-      />
+      <icon-atom class="text-xs" :icon="hidePassword ? 'eye' : 'eye-slash'" />
     </button>
   </div>
 </template>

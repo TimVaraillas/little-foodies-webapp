@@ -6,18 +6,14 @@ import { router } from "@/helpers/router";
 import handleOutsideClick from "@/directives/handleOutsideClick";
 
 import "@/style.css";
-
-import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-
-import { library } from "@fortawesome/fontawesome-svg-core";
-import icons from "@/assets/icons";
-library.add(...icons);
+import "@fortawesome/fontawesome-free/js/brands.min.js";
+import "@fortawesome/fontawesome-free/js/solid.min.js";
+import "@fortawesome/fontawesome-free/js/fontawesome.min.js";
 
 const pinia = createPinia();
 
 createApp(App)
   .use(router)
   .use(pinia)
-  .component("font-awesome-icon", FontAwesomeIcon)
   .directive("clickOut", handleOutsideClick)
   .mount("#app");

@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { computed } from "vue";
 
+import IconAtom from "@/components/atoms/Icon/IconAtom.vue";
+
 type Size = "xs" | "sm" | "md" | "lg" | "xl";
 
 interface Props {
@@ -47,7 +49,7 @@ const inputClass = {
       v-if="props.prependIcon"
       class="flex items-center pointer-events-none mr-3 text-slate-400"
     >
-      <font-awesome-icon :icon="props.prependIcon" />
+      <icon-atom :icon="props.prependIcon" />
     </div>
     <input
       type="text"
@@ -61,7 +63,7 @@ const inputClass = {
       class="flex items-center ml-2 text-slate-400 hover:text-slate-800"
       @click="clearValue"
     >
-      <font-awesome-icon class="text-xs" icon="fa-solid fa-xmark" />
+      <icon-atom icon="xmark" />
     </button>
   </div>
 </template>
