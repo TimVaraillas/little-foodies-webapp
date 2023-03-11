@@ -5,7 +5,7 @@ const props = defineProps<{
 </script>
 
 <template>
-  <h2 class="text-3xl font-bold uppercase tracking-wider text-amber-500">
+  <h2 class="text-3xl font-bold uppercase text-amber-500">
     <slot v-if="!props.text"></slot>
     <span v-else>{{ props.text }}</span>
   </h2>
