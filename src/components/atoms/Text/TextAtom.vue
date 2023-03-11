@@ -2,18 +2,18 @@
 import { computed } from "vue";
 
 type Size = "xs" | "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "4xl" | "5xl";
-type Style = "normal" | "italic";
+type Variant = "normal" | "italic";
 type Weight = "thin" | "light" | "normal" | "medium" | "bold" | "extrabold";
 
 interface Props {
   size?: Size;
-  style?: Style;
+  variant?: Variant;
   weight?: Weight;
 }
 
 const props = withDefaults(defineProps<Props>(), {
   size: "md",
-  style: "normal",
+  variant: "normal",
   weight: "normal",
 });
 
@@ -30,14 +30,14 @@ const componentStyle = computed((): any => ({
   fontWeight: sizeMapping[props.weight],
 }));
 
-const styleClass = computed(() => ({
+const componentClass = computed(() => ({
   [`text-${props.size}`]: true,
-  ...(props.style === "italic" ? { italic: true } : {}),
+  ...(props.variant === "italic" ? { italic: true } : {}),
 }));
 </script>
 
 <template>
-  <p :class="styleClass" :style="componentStyle">
+  <p :class="componentClass" :style="componentStyle">
     <slot></slot>
   </p>
 </template>

@@ -22,7 +22,7 @@ Thin.args = {
 export const ThinItalic: Story = Template.bind({});
 ThinItalic.args = {
   weight: "thin",
-  style: "italic",
+  variant: "italic",
 };
 export const Light: Story = Template.bind({});
 Light.args = {
@@ -31,13 +31,13 @@ Light.args = {
 export const LightItalic: Story = Template.bind({});
 LightItalic.args = {
   weight: "light",
-  style: "italic",
+  variant: "italic",
 };
 export const Regular: Story = Template.bind({});
 Regular.args = {};
 export const RegularItalic: Story = Template.bind({});
 RegularItalic.args = {
-  style: "italic",
+  variant: "italic",
 };
 export const Medium: Story = Template.bind({});
 Medium.args = {
@@ -46,7 +46,7 @@ Medium.args = {
 export const MediumItalic: Story = Template.bind({});
 MediumItalic.args = {
   weight: "medium",
-  style: "italic",
+  variant: "italic",
 };
 export const Bold: Story = Template.bind({});
 Bold.args = {
@@ -55,7 +55,7 @@ Bold.args = {
 export const BoldItalic: Story = Template.bind({});
 BoldItalic.args = {
   weight: "bold",
-  style: "italic",
+  variant: "italic",
 };
 export const Extrabold: Story = Template.bind({});
 Extrabold.args = {
@@ -64,7 +64,7 @@ Extrabold.args = {
 export const ExtraboldItalic: Story = Template.bind({});
 ExtraboldItalic.args = {
   weight: "extrabold",
-  style: "italic",
+  variant: "italic",
 };
 export const ExtraSmall: Story = Template.bind({});
 ExtraSmall.args = {

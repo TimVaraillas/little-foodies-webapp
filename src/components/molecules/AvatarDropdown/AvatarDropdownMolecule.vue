@@ -3,6 +3,7 @@ import { ref, Ref } from "vue";
 
 import AvatarAtom from "@/components/atoms/Avatar/AvatarAtom.vue";
 import IconAtom from "@/components/atoms/Icon/IconAtom.vue";
+import TextAtom from "@/components/atoms/Text/TextAtom.vue";
 import MenuMolecule from "@/components/molecules/Menu/MenuMolecule.vue";
 
 import type { MenuItem } from "@/types/menu.type";
@@ -38,8 +39,12 @@ const onCloseDropdownMenu = () => {
     >
       <template #prepend>
         <div class="px-4 py-3 text-sm text-slate-800">
-          <div>{{ user.first_name }} {{ user.last_name }}</div>
-          <div class="font-medium">{{ user.email }}</div>
+          <text-atom weight="bold">
+            {{ user.first_name }} {{ user.last_name }}
+          </text-atom>
+          <text-atom weight="medium" variant="italic">
+            {{ user.email }}
+          </text-atom>
         </div>
       </template>
     </menu-molecule>
