@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import TitleAtom from "@/components/atoms/Title/TitleAtom.vue";
-import SubtitleAtom from "@/components/atoms/Subtitle/SubtitleAtom.vue";
 
 const props = defineProps<{
   title?: string;
@@ -11,15 +10,17 @@ const props = defineProps<{
 <template>
   <div class="bg-amber-100 py-14">
     <div class="container flex flex-col items-center justify-center mx-auto">
-      <div class="title mb-3">
-        <title-atom v-if="props.title" :text="props.title" />
-        <title-atom v-else><slot name="title"></slot></title-atom>
+      <div class="mb-3">
+        <title-atom class="uppercase text-amber-500" :level="1">
+          <span v-if="props.title">{{ props.title }}</span>
+          <slot v-else name="title"></slot>
+        </title-atom>
       </div>
-      <div class="subtitle">
-        <subtitle-atom v-if="props.subtitle" :text="props.subtitle" />
-        <subtitle-atom v-else>
+      <div>
+        <title-atom :level="3">
+          <span v-if="props.subtitle">{{ props.subtitle }}</span>
           <slot name="subtitle"></slot>
-        </subtitle-atom>
+        </title-atom>
       </div>
       <div class="mt-12 w-full">
         <slot name="content"></slot>
