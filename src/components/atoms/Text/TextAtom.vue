@@ -1,64 +1,43 @@
 <script setup lang="ts">
 import { computed } from "vue";
 
-type Size =
-  | "xs"
-  | "sm"
-  | "md"
-  | "lg"
-  | "xl"
-  | "2xl"
-  | "3xl"
-  | "4xl"
-  | "5xl"
-  | "6xl"
-  | "7xl"
-  | "8xl"
-  | "9xl";
-
-type Weight =
-  | "thin"
-  | "extralight"
-  | "light"
-  | "normal"
-  | "medium"
-  | "semibold"
-  | "bold"
-  | "extrabold"
-  | "black";
-
-type LetterSpacing =
-  | "tighter"
-  | "tight"
-  | "normal"
-  | "wide"
-  | "wider"
-  | "widest";
+type Size = "xs" | "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "4xl" | "5xl";
+type Style = "normal" | "italic";
+type Weight = "thin" | "light" | "normal" | "medium" | "bold" | "extrabold";
 
 interface Props {
-  letterSpacing?: LetterSpacing;
   size?: Size;
-  style?: "normal" | "italic";
+  style?: Style;
   weight?: Weight;
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  letterSpacing: "normal",
   size: "md",
   style: "normal",
   weight: "normal",
 });
 
+const sizeMapping: any = {
+  thin: 100,
+  light: 300,
+  normal: 400,
+  medium: 500,
+  bold: 700,
+  extrabold: 900,
+};
+
+const componentStyle = computed((): any => ({
+  fontWeight: sizeMapping[props.weight],
+}));
+
 const styleClass = computed(() => ({
-  [`tracking-${props.letterSpacing}`]: true,
   [`text-${props.size}`]: true,
   ...(props.style === "italic" ? { italic: true } : {}),
-  [`font-${props.weight}`]: true,
 }));
 </script>
 
 <template>
-  <p :class="styleClass">
+  <p :class="styleClass" :style="componentStyle">
     <slot></slot>
   </p>
 </template>
