@@ -12,6 +12,8 @@ import type { User } from "@/types/user.type";
 
 const authStore = useAuthStore();
 
+const logoUrl: Ref<string> = ref("/img/logo.svg");
+
 const { user } = storeToRefs(authStore);
 
 const avatarMenu: Ref<MenuItem[][]> = ref([
@@ -51,6 +53,7 @@ onUnmounted(() => {
   <nav-bar-organism
     class="sticky top-0 z-20 transition-all duration-300"
     :class="{ 'shadow-md': windowScrolled }"
+    :logo-url="logoUrl"
     :user="(user as User)"
     :avatar-menu="avatarMenu"
   />

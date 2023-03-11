@@ -1,20 +1,20 @@
 import { Meta, Story } from "@storybook/vue3";
-import AppTitleAtom from "./AppTitleAtom.vue";
+import LogoAtom from "./LogoAtom.vue";
 
 export default {
-  title: "Atoms/AppTitleAtom",
-  component: AppTitleAtom,
+  title: "Atoms/Logo",
+  component: LogoAtom,
 } as Meta;
 
 const Template = (args: any) => ({
-  components: { AppTitleAtom },
+  components: { LogoAtom },
   setup() {
     return { args };
   },
-  template: '<app-title-atom v-bind="args" />',
+  template: '<logo-atom v-bind="args" />',
 });
 
 export const Standard: Story = Template.bind({});
 Standard.args = {
-  title: "Little foodies",
+  src: "/img/logo.svg",
 };
