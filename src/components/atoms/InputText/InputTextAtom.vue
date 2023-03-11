@@ -10,13 +10,11 @@ interface Props {
   placeholder?: string;
   prependIcon?: string;
   clearable?: boolean;
-  bordered?: boolean;
   size?: Size;
 }
 
 const props = withDefaults(defineProps<Props>(), {
   size: "md",
-  bordered: true,
 });
 
 const emit = defineEmits(["update:modelValue"]);
@@ -36,13 +34,12 @@ const inputClass = {
   "px-4 py-2.5 text-base": props.size === "md",
   "pl-4 pr-5 py-4 text-lg": props.size === "lg",
   "pl-4 pr-5 py-6 text-xl": props.size === "xl",
-  "border border-slate-300": props.bordered,
 };
 </script>
 
 <template>
   <div
-    class="w-full flex bg-slate-50 text-slate-900 rounded-lg focus-within:ring-4 focus-within:ring-amber-200"
+    class="w-full flex bg-slate-50 text-slate-900 rounded-lg border border-slate-300 focus-within:ring-4 focus-within:ring-amber-200"
     :class="inputClass"
   >
     <div

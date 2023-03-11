@@ -1,17 +1,17 @@
 import { Meta, Story } from "@storybook/vue3";
-import InputTextAtom from "./InputTextAtom.vue";
+import InputPasswordAtom from "./InputPasswordAtom.vue";
 
 export default {
-  title: "Atoms/InputText",
-  component: InputTextAtom,
+  title: "Atoms/InputPassword",
+  component: InputPasswordAtom,
 } as Meta;
 
 const Template = (args: any) => ({
-  components: { InputTextAtom },
+  components: { InputPasswordAtom },
   setup() {
     return { args };
   },
-  template: '<input-text-atom v-bind="args" />',
+  template: '<input-password-atom v-bind="args" />',
 });
 const examplePlaceholder = "Entrez une valeur";
 
@@ -20,10 +20,15 @@ Clearable.args = {
   clearable: true,
   placeholder: examplePlaceholder,
 };
+export const NotViewable: Story = Template.bind({});
+NotViewable.args = {
+  viewable: false,
+  placeholder: examplePlaceholder,
+};
 
 export const WithPrependIcon: Story = Template.bind({});
 WithPrependIcon.args = {
-  prependIcon: "magnifying-glass",
+  prependIcon: "lock",
   placeholder: examplePlaceholder,
 };
 
