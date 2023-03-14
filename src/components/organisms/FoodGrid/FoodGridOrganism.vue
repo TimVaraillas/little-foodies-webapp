@@ -7,6 +7,12 @@ import type { FoodsByCategory } from "@/types/food.type";
 const props = defineProps<{
   foodByCategories: FoodsByCategory[];
 }>();
+
+const emit = defineEmits(["item-click"]);
+
+const onItemClick = (foodId: string) => {
+  emit("item-click", foodId);
+};
 </script>
 
 <template>
@@ -21,7 +27,9 @@ const props = defineProps<{
     <food-item-molecule
       v-for="item in category.foods"
       :key="item._id"
+      :id="item._id"
       v-bind="item"
+      @item-click="onItemClick"
     />
   </div>
 </template>
