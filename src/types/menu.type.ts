@@ -5,6 +5,5 @@ export interface MenuItem {
 }
 export interface NavBarMenuItem {
   name: string;
-  url: Function;
-  active: string;
+  url: string;
 }
