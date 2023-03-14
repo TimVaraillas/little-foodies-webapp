@@ -3,3 +3,8 @@ export interface MenuItem {
   handler: Function;
   color?: string;
 }
+export interface NavBarMenuItem {
+  name: string;
+  url: Function;
+  active: string;
+}
