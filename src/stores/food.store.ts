@@ -12,6 +12,12 @@ export const useFoodStore = defineStore("food", () => {
 
   const countFoods = computed((): number => foods.value.length);
 
+  const foodById = computed(() => {
+    return (id: string | null): Food | undefined => {
+      return foods.value.find((f: Food) => f._id === id);
+    };
+  });
+
   const filteredFoods = computed(() => {
     return (
       search: string = "",
@@ -91,6 +97,7 @@ export const useFoodStore = defineStore("food", () => {
     foods,
     categories,
     countFoods,
+    foodById,
     filteredFoods,
     foodsByCategories,
     categoriesSelectOptions,

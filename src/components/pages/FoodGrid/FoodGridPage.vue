@@ -3,12 +3,14 @@ import { ref, Ref, computed, onMounted } from "vue";
 
 import InputTextAtom from "@/components/atoms/InputText/InputTextAtom.vue";
 import SelectAtom from "@/components/atoms/Select/SelectAtom.vue";
+import DrawerMolecule from "@/components/molecules/Drawer/DrawerMolecule.vue";
 import HeaderOrganism from "@/components/organisms/Header/HeaderOrganism.vue";
 import FoodGridOrganism from "@/components/organisms/FoodGrid/FoodGridOrganism.vue";
+import FoodDetailOrganism from "@/components/organisms/FoodDetail/FoodDetailOrganism.vue";
 
 import { useFoodStore } from "@/stores/food.store";
 
-import type { FoodsByCategory } from "@/types/food.type";
+import type { Food, FoodsByCategory } from "@/types/food.type";
 import type { SelectOption } from "@/types/select.type";
 
 const foodStore = useFoodStore();
@@ -21,6 +23,12 @@ const foodByCategories = computed((): FoodsByCategory[] =>
     introductoryAge.value,
     allergens.value
   )
+);
+
+const selectedFoodId: Ref<string | null> = ref(null);
+
+const selectedFood = computed((): Food | undefined =>
+  foodStore.foodById(selectedFoodId.value)
 );
 
 const search: Ref<string> = ref("");
@@ -53,6 +61,20 @@ onMounted(async () => {
   await foodStore.fetchCategories();
   await foodStore.fetchFoods();
 });
+
+const drawerOpen: Ref<boolean> = ref(false);
+
+const onItemClick = (foodId: string) => {
+  selectedFoodId.value = foodId;
+  if (selectedFood.value) {
+    drawerOpen.value = true;
+  }
+};
+
+const onCloseDrawer = () => {
+  drawerOpen.value = false;
+  selectedFoodId.value = null;
+};
 </script>
 
 <template>
@@ -111,8 +133,24 @@ onMounted(async () => {
     </template>
   </header-organism>
   <div v-if="foodByCategories" class="container mx-auto my-16">
-    <food-grid-organism :food-by-categories="foodByCategories" />
+    <food-grid-organism
+      :food-by-categories="foodByCategories"
+      @item-click="onItemClick"
+    />
   </div>
+  <drawer-molecule :is-open="drawerOpen" @close="onCloseDrawer">
+    <template #title>
+      <div class="text-amber-500">
+        {{ selectedFood?.name }}
+      </div>
+    </template>
+    <template #content>
+      <food-detail-organism
+        v-if="selectedFood"
+        :food="(selectedFood as Food)"
+      ></food-detail-organism>
+    </template>
+  </drawer-molecule>
 </template>
 
 <style scoped lang="scss">
