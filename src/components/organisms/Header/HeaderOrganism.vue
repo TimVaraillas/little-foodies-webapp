@@ -10,19 +10,19 @@ const props = defineProps<{
 <template>
   <div class="bg-amber-100 py-14">
     <div class="container flex flex-col items-center justify-center mx-auto">
-      <div class="mb-3">
+      <div class="mb-3" v-if="$slots.title || props.title">
         <title-atom class="uppercase text-amber-500" :level="1">
           <span v-if="props.title">{{ props.title }}</span>
           <slot v-else name="title"></slot>
         </title-atom>
       </div>
-      <div>
+      <div v-if="$slots.subtitle || props.subtitle">
         <title-atom :level="3">
           <span v-if="props.subtitle">{{ props.subtitle }}</span>
           <slot name="subtitle"></slot>
         </title-atom>
       </div>
-      <div class="mt-12 w-full">
+      <div class="mt-12 w-full" v-if="$slots.content">
         <slot name="content"></slot>
       </div>
     </div>
