@@ -3,11 +3,13 @@ import { ref, Ref, onMounted, onUnmounted } from "vue";
 import { RouterView } from "vue-router";
 import { storeToRefs } from "pinia";
 
+import { router } from "@/helpers/router";
+
 import NavBarOrganism from "@/components/organisms/NavBar/NavBarOrganism.vue";
 
 import { useAuthStore } from "@/stores/auth.store";
 
-import type { MenuItem } from "@/types/menu.type";
+import type { MenuItem, NavBarMenuItem } from "@/types/menu.type";
 import type { User } from "@/types/user.type";
 
 const authStore = useAuthStore();
@@ -16,11 +18,18 @@ const logoUrl: Ref<string> = ref("/img/logo.svg");
 
 const { user } = storeToRefs(authStore);
 
+const navBarMenu: Ref<NavBarMenuItem[]> = ref([
+  {
+    name: "Diversification alimentaire",
+    url: "/",
+  },
+]);
+
 const avatarMenu: Ref<MenuItem[][]> = ref([
   [
     {
       name: "Ma famille",
-      handler: () => {},
+      handler: () => router.push("/family"),
     },
   ],
   [
@@ -56,6 +65,7 @@ onUnmounted(() => {
     :logo-url="logoUrl"
     :user="(user as User)"
     :avatar-menu="avatarMenu"
+    :nav-menu="navBarMenu"
   />
   <RouterView />
 </template>

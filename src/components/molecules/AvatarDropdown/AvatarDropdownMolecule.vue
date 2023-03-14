@@ -24,7 +24,6 @@ const onCloseDropdownMenu = () => {
 <template>
   <div class="relative" v-click-out="onCloseDropdownMenu">
     <button
-      ref="button"
       class="py-1 px-2 flex items-center cursor-pointer rounded-lg hover:bg-amber-200"
       @click="() => (hideDropdown = !hideDropdown)"
     >

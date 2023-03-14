@@ -27,7 +27,7 @@ const props = withDefaults(
     >
       <div class="h-full grow flex items-center">
         <logo-atom v-if="props.logoUrl" :src="props.logoUrl" />
-        <nav-bar-menu-molecule class="ml-10" :menu="navMenu" />
+        <nav-bar-menu-molecule class="ml-10 mb-1" :menu="navMenu" />
       </div>
       <div>
         <avatar-dropdown-molecule
