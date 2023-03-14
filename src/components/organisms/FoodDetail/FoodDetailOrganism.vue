@@ -29,24 +29,26 @@ const seasonMapping = {
     </div>
     <div class="py-6">
       <div class="bg-slate-100 rounded-lg p-6">
-        <div class="mb-4 flex items-center">
+        <div class="mb-4 flex items-center flex-wrap">
           <text-atom class="mr-4">Catégorie : </text-atom>
           <text-atom weight="extrabold">
             {{ props.food.category.name }}
           </text-atom>
         </div>
-        <div class="mb-4 flex items-center">
+        <div class="mb-4 flex items-center flex-wrap">
           <text-atom class="mr-4">Saison de consommation : </text-atom>
-          <tag-atom
-            v-for="season in props.food.season"
-            :key="season"
-            class="m-1"
-            color="primary"
-          >
-            {{ seasonMapping[season] }}
-          </tag-atom>
+          <div>
+            <tag-atom
+              v-for="season in props.food.season"
+              :key="season"
+              class="m-1"
+              color="primary"
+            >
+              {{ seasonMapping[season] }}
+            </tag-atom>
+          </div>
         </div>
-        <div class="mb-4 flex items-center">
+        <div class="mb-4 flex items-center flex-wrap">
           <text-atom class="mr-4">Contient des allergènes majeurs : </text-atom>
           <tag-atom
             class="m-1"
@@ -56,7 +58,7 @@ const seasonMapping = {
             {{ props.food.main_allergens ? "Oui" : "Non" }}
           </tag-atom>
         </div>
-        <div class="mb-4 flex items-center">
+        <div class="mb-4 flex items-center flex-wrap">
           <text-atom class="mr-4">Âge d'introduction conseillé : </text-atom>
           <text-atom weight="extrabold">
             Pas avant {{ props.food.introductory_month }} mois
