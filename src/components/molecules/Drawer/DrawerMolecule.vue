@@ -55,7 +55,7 @@ const closeDrawer = () => {
       <div class="drawer-content grow p-6">
         <slot name="content"></slot>
       </div>
-      <div class="drawer-footer h-16 p-6">
+      <div v-if="$slots['footer']" class="drawer-footer h-16 p-6">
         <slot name="footer"></slot>
       </div>
     </aside>
