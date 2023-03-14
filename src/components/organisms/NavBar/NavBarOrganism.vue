@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import LogoAtom from "@/components/atoms/Logo/LogoAtom.vue";
 import AvatarDropdownMolecule from "@/components/molecules/AvatarDropdown/AvatarDropdownMolecule.vue";
+import NavBarMenuMolecule from "@/components/molecules/NavBarMenu/NavBarMenuMolecule.vue";
 
-import type { MenuItem } from "@/types/menu.type";
+import type { MenuItem, NavBarMenuItem } from "@/types/menu.type";
 import type { User } from "@/types/user.type";
 
 const props = withDefaults(
@@ -10,6 +11,7 @@ const props = withDefaults(
     logoUrl?: string;
     user?: User;
     avatarMenu?: MenuItem[][];
+    navMenu: NavBarMenuItem[];
   }>(),
   {
     appTitle: "Little foodies",
@@ -23,8 +25,9 @@ const props = withDefaults(
     <div
       class="h-full py-4 container flex flex-wrap items-center justify-between mx-auto"
     >
-      <div class="h-full grow">
+      <div class="h-full grow flex items-center">
         <logo-atom v-if="props.logoUrl" :src="props.logoUrl" />
+        <nav-bar-menu-molecule class="ml-10" :menu="navMenu" />
       </div>
       <div>
         <avatar-dropdown-molecule
