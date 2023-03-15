@@ -132,7 +132,7 @@ const onCloseDrawer = () => {
       </div>
     </template>
   </header-organism>
-  <div v-if="foodByCategories" class="container mx-auto my-16">
+  <div v-if="foodByCategories" class="container mx-auto my-10">
     <food-grid-organism
       :food-by-categories="foodByCategories"
       @item-click="onItemClick"
@@ -144,12 +144,10 @@ const onCloseDrawer = () => {
         {{ selectedFood?.name }}
       </div>
     </template>
-    <template #content>
-      <food-detail-organism
-        v-if="selectedFood"
-        :food="(selectedFood as Food)"
-      ></food-detail-organism>
-    </template>
+    <food-detail-organism
+      v-if="selectedFood"
+      :food="(selectedFood as Food)"
+    ></food-detail-organism>
   </drawer-molecule>
 </template>
 
