@@ -23,12 +23,7 @@ const props = defineProps({
       return value > 0 ? true : false;
     },
   },
-  gap: {
-    type: String,
-    validator(value: number) {
-      return value > 0 ? true : false;
-    },
-  },
+  gap: String,
 });
 
 const componentStyle = computed(() => ({

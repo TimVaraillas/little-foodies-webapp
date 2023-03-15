@@ -17,7 +17,7 @@ const props = withDefaults(defineProps<Props>(), {
   weight: "normal",
 });
 
-const sizeMapping: any = {
+const weightMapping: any = {
   thin: 100,
   light: 300,
   normal: 400,
@@ -27,7 +27,7 @@ const sizeMapping: any = {
 };
 
 const componentStyle = computed((): any => ({
-  fontWeight: sizeMapping[props.weight],
+  fontWeight: weightMapping[props.weight],
 }));
 
 const componentClass = computed(() => ({
