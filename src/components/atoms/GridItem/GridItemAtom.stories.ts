@@ -52,3 +52,12 @@ FlowColumnSpanEnd.args = {
   span: 2,
   end: 10,
 };
+export const ResponsiveSpan: Story = Template.bind({});
+ResponsiveSpan.args = {
+  flow: "row",
+  xxlSpan: 1,
+  xlSpan: 2,
+  lgSpan: 4,
+  mdSpan: 6,
+  smSpan: 12,
+};
