@@ -1,7 +1,8 @@
 import { Ref, ref, computed } from "vue";
 import { defineStore } from "pinia";
-import axios from "axios";
 import { intersection } from "lodash";
+
+import http from "@/helpers/http";
 
 import type { Food, Category, FoodsByCategory } from "@/types/food.type";
 import type { SelectOption } from "@/types/select.type";
@@ -77,7 +78,7 @@ export const useFoodStore = defineStore("food", () => {
 
   const fetchFoods = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/foods");
+      const response = await http.get("/foods");
       foods.value = response.data as Food[];
     } catch (error) {
       console.log(error);
@@ -86,8 +87,8 @@ export const useFoodStore = defineStore("food", () => {
 
   const fetchCategories = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/categories");
-      categories.value = response.data as any[];
+      const response = await http.get("/categories");
+      categories.value = response.data as Category[];
     } catch (error) {
       console.log(error);
     }

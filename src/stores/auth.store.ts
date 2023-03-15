@@ -1,7 +1,7 @@
 import { ref, Ref } from "vue";
 import { defineStore } from "pinia";
-import axios from "axios";
-import { setAuthToken } from "@/helpers/authToken";
+
+import http from "@/helpers/http";
 import { router } from "@/helpers/router";
 
 import type { User, AuthenticationCreditials } from "@/types/user.type";
@@ -15,11 +15,8 @@ export const useAuthStore = defineStore("auth", () => {
   );
 
   const fetchUser = async () => {
-    if (localStorage.token) {
-      setAuthToken(localStorage.token);
-    }
     try {
-      const response = await axios.get("http://localhost:3000/auth");
+      const response = await http.get("/auth");
       localStorage.setItem("user", JSON.stringify(response.data as User));
       user.value = response.data as User;
       router.push({ path: "/" });
@@ -30,12 +27,9 @@ export const useAuthStore = defineStore("auth", () => {
 
   const login = async (credicials: AuthenticationCreditials) => {
     try {
-      const response = await axios.post(
-        "http://localhost:3000/auth",
-        credicials
-      );
+      const response = await http.post("/auth", credicials);
       localStorage.setItem("token", response.data?.token);
-      token.value = response.data?.token;
+      token.value = response.data?.token as string;
       await fetchUser();
     } catch (err) {
       console.log(err);
