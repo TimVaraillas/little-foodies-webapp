@@ -6,5 +6,5 @@ export interface Child {
   last_name: string;
   gender: "masculine" | "feminine";
   birthday: Date;
-  user: User;
+  user?: User;
 }

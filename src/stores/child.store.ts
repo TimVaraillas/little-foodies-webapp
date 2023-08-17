@@ -1,9 +1,10 @@
 import { ref, computed } from "vue";
-import { defineStore } from "pinia";
-
-import type { Child } from "@/types/child.type";
+import { defineStore, storeToRefs } from "pinia";
 
 import http from "@/helpers/http";
+import { useAuthStore } from "@/stores/auth.store";
+
+import type { Child } from "@/types/child.type";
 
 export const useChildStore = defineStore("child", () => {
   const children = ref<Child[]>([]);
@@ -18,15 +19,24 @@ export const useChildStore = defineStore("child", () => {
     try {
       const response = await http.get(`/children/${userId}`);
       children.value = response.data as Child[];
-      console.log(response);
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const addChild = async (child: Child) => {
+    const authStore = useAuthStore();
+    const { user } = storeToRefs(authStore);
+    return await http.post("/children", {
+      ...child,
+      user_id: user.value?._id,
+    });
   };
 
   return {
     children,
     childById,
     fetchChildren,
+    addChild,
   };
 });
