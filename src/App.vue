@@ -6,6 +6,7 @@ import { storeToRefs } from "pinia";
 import { router } from "@/helpers/router";
 
 import NavBarOrganism from "@/components/organisms/NavBar/NavBarOrganism.vue";
+import ToasterOrganism from "@/components/organisms/Toaster/ToasterOrganism.vue";
 
 import { useAuthStore } from "@/stores/auth.store";
 
@@ -59,6 +60,7 @@ onUnmounted(() => {
 </script>
 
 <template>
+  <toaster-organism></toaster-organism>
   <nav-bar-organism
     class="sticky top-0 z-20 transition-all duration-300"
     :class="{ 'shadow-md': windowScrolled }"
