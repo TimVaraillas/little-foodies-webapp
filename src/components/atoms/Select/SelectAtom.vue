@@ -19,6 +19,7 @@ interface Props {
   hideSelected?: boolean;
   closeOnSelect?: boolean;
   size?: Size;
+  error?: string;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -48,22 +49,25 @@ const sizeClass = computed(() => ({
 </script>
 
 <template>
-  <Multiselect
-    class="custom-multiselect"
-    :class="sizeClass"
-    v-model="internalValue"
-    :options="props.options"
-    :mode="props.mode"
-    :valueProp="valueProp"
-    :label="labelProp"
-    :placeholder="props.placeholder"
-    :close-on-select="closeOnSelect"
-    :searchable="props.searchable"
-    :canClear="props.clearable"
-    :no-results-text="props.noResultsText"
-    :no-options-text="props.noOptionsText"
-    :hideSelected="hideSelected"
-  />
+  <div>
+    <Multiselect
+      class="custom-multiselect"
+      :class="{ ...sizeClass, error }"
+      v-model="internalValue"
+      :options="props.options"
+      :mode="props.mode"
+      :valueProp="valueProp"
+      :label="labelProp"
+      :placeholder="props.placeholder"
+      :close-on-select="closeOnSelect"
+      :searchable="props.searchable"
+      :canClear="props.clearable"
+      :no-results-text="props.noResultsText"
+      :no-options-text="props.noOptionsText"
+      :hideSelected="hideSelected"
+    />
+    <small class="mx-2 text-rose-600" v-if="error">{{ error }}</small>
+  </div>
 </template>
 
 <style src="@vueform/multiselect/themes/default.css"></style>
@@ -164,6 +168,29 @@ const sizeClass = computed(() => ({
   --ms-option-color-disabled: theme("colors.slate.800");
   --ms-option-color-selected-disabled: theme("colors.slate.800");
   --ms-empty-color: theme("colors.slate.400");
+
+  &.error {
+    --ms-bg: theme("colors.rose.50");
+    --ms-bg-disabled: theme("colors.rose.200");
+    --ms-border-color: theme("colors.rose.300");
+    --ms-spinner-color: theme("colors.amber.600");
+    --ms-caret-color: theme("colors.rose.400");
+    --ms-clear-color: theme("colors.rose.400");
+    --ms-clear-color-hover: theme("colors.rose.800");
+
+    --ms-border-color-active: theme("colors.rose.300");
+    --ms-radius: theme(borderRadius.lg);
+    --ms-ring-width: theme(ringWidth.2);
+    --ms-ring-color: theme("colors.rose.200");
+    --ms-placeholder-color: theme("colors.slate.400");
+    --ms-tag-font-weight: theme(fontWeight.normal);
+    --ms-tag-bg: theme("colors.rose.500");
+    --ms-tag-bg-disabled: theme("colors.rose.400");
+    --ms-tag-color: theme("colors.white");
+    --ms-tag-color-disabled: theme("colors.white");
+    --ms-tag-radius: theme(borderRadius.md);
+    --ms-empty-color: theme("colors.rose.400");
+  }
 
   :deep(.multiselect-tags-search) {
     background-color: theme("colors.slate.50");
