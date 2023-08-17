@@ -11,16 +11,22 @@ import GridItemAtom from "@/components/atoms/GridItem/GridItemAtom.vue";
 import DrawerMolecule from "@/components/molecules/Drawer/DrawerMolecule.vue";
 import GridMolecule from "@/components/molecules/Grid/GridMolecule.vue";
 import HeaderOrganism from "@/components/organisms/Header/HeaderOrganism.vue";
+import ChildFormOrganism from "@/components/organisms/ChildForm/ChildFormOrganism.vue";
 
 import { useAuthStore } from "@/stores/auth.store";
 import { useChildStore } from "@/stores/child.store";
+import { useToastStore } from "@/stores/toast.store";
+
+import type { Child } from "@/types/child.type";
 
 const authStore = useAuthStore();
 const childStore = useChildStore();
+const toastStore = useToastStore();
 
 const { user } = storeToRefs(authStore);
 const { children } = storeToRefs(childStore);
 
+const childForm = ref<InstanceType<typeof ChildFormOrganism> | null>(null);
 const drawerOpen: Ref<boolean> = ref(false);
 
 const onCloseDrawer = () => {
@@ -28,10 +34,30 @@ const onCloseDrawer = () => {
 };
 
 onMounted(async () => {
+  await fetchChildren();
+});
+
+const fetchChildren = async () => {
   if (user.value?._id) {
     await childStore.fetchChildren(user.value?._id);
   }
-});
+};
+
+const addChild = async (value: any) => {
+  const child: Child = {
+    first_name: value.firstName,
+    last_name: value.lastName,
+    gender: value.gender,
+    birthday: value.birthday,
+  };
+  const response = await childStore.addChild(child);
+  if (response) {
+    await fetchChildren();
+    onCloseDrawer();
+    childForm.value?.reset();
+    toastStore.success({ text: "Votre enfant a été ajouté avec succès" });
+  }
+};
 </script>
 
 <template>
@@ -58,7 +84,16 @@ onMounted(async () => {
         <grid-item-atom v-for="child in children" :key="child._id" :span="6">
           <card-atom>
             <div class="flex items-center justify-start">
-              <avatar-atom />
+              <icon-atom
+                v-if="child.gender === 'masculine'"
+                icon="child"
+                class="text-2xl text-blue-500"
+              ></icon-atom>
+              <icon-atom
+                v-if="child.gender === 'feminine'"
+                icon="child-dress"
+                class="text-2xl text-pink-500"
+              ></icon-atom>
               <text-atom class="ml-4" size="xl" weight="bold">
                 {{ child?.first_name }} {{ child?.last_name }}
               </text-atom>
@@ -85,6 +120,10 @@ onMounted(async () => {
     <template #title>
       <div class="text-amber-500">Ajouter un enfant</div>
     </template>
+    <child-form-organism
+      ref="childForm"
+      @submit="addChild"
+    ></child-form-organism>
   </drawer-molecule>
 </template>
 
