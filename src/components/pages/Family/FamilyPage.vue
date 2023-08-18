@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Ref, ref, onMounted } from "vue";
 import { storeToRefs } from "pinia";
+import dayjs from "dayjs";
 
 import CardAtom from "@/components/atoms/Card/CardAtom.vue";
 import IconAtom from "@/components/atoms/Icon/IconAtom.vue";
@@ -27,14 +28,10 @@ const { user } = storeToRefs(authStore);
 const { children } = storeToRefs(childStore);
 
 const childForm = ref<InstanceType<typeof ChildFormOrganism> | null>(null);
-const drawerOpen: Ref<boolean> = ref(false);
+const formDrawerOpen: Ref<boolean> = ref(false);
 
 const deleteChildId: Ref<string | null> = ref(null);
 const deleteChildModalOpen: Ref<boolean> = ref(false);
-
-const onCloseDrawer = () => {
-  drawerOpen.value = false;
-};
 
 onMounted(async () => {
   await fetchChildren();
@@ -46,28 +43,53 @@ const fetchChildren = async () => {
   }
 };
 
-const addChild = async (value: any) => {
+const onOpenFormDrawer = (child: Child | null) => {
+  if (child?._id) {
+    childForm.value?.set({
+      _id: child._id,
+      firstName: child?.first_name,
+      lastName: child?.last_name,
+      gender: child?.gender,
+      birthday: dayjs(child?.birthday).format("YYYY-MM-DD"),
+    });
+  } else {
+    childForm.value?.reset();
+  }
+  formDrawerOpen.value = true;
+};
+
+const onCloseFormDrawer = () => {
+  formDrawerOpen.value = false;
+};
+
+const submitChild = async (value: any) => {
   const child: Child = {
+    ...(value._id ? { _id: value._id } : {}),
     first_name: value.firstName,
     last_name: value.lastName,
     gender: value.gender,
     birthday: value.birthday,
   };
-  const response = await childStore.addChild(child);
-  if (response) {
+  let response;
+  if (child._id) {
+    response = await childStore.updateChild(child);
+  } else {
+    response = await childStore.addChild(child);
+  }
+  if (response?.status === 204) {
     await fetchChildren();
-    onCloseDrawer();
+    onCloseFormDrawer();
     childForm.value?.reset();
     toastStore.success({ text: "Votre enfant a été ajouté avec succès" });
   }
 };
 
-const openDeletionModal = (childId: string) => {
+const onOpenDeletionModal = (childId: string) => {
   deleteChildId.value = childId;
   deleteChildModalOpen.value = true;
 };
 
-const cancelDeletionModal = () => {
+const onCancelDeletionModal = () => {
   deleteChildId.value = null;
   deleteChildModalOpen.value = false;
 };
@@ -131,19 +153,27 @@ const deleteChild = async () => {
                   {{ child?.first_name }} {{ child?.last_name }}
                 </text-atom>
               </div>
-              <icon-atom
-                v-if="child._id"
-                icon="trash"
-                class="flex justify-center items-center text-xl text-slate-300 hover:text-rose-500 hover:cursor-pointer"
-                @click.stop="openDeletionModal(child._id)"
-              ></icon-atom>
+              <div class="flex gap-2">
+                <icon-atom
+                  v-if="child._id"
+                  icon="pen"
+                  class="flex justify-center items-center text-xl text-slate-300 hover:text-sky-500 hover:cursor-pointer"
+                  @click.stop="onOpenFormDrawer(child)"
+                ></icon-atom>
+                <icon-atom
+                  v-if="child._id"
+                  icon="trash"
+                  class="flex justify-center items-center text-xl text-slate-300 hover:text-rose-500 hover:cursor-pointer"
+                  @click.stop="onOpenDeletionModal(child._id)"
+                ></icon-atom>
+              </div>
             </div>
           </card-atom>
         </grid-item-atom>
         <grid-item-atom :span="6">
           <card-atom
             class="border-dashed border-2 text-slate-400 hover:border-amber-500 hover:text-amber-500 hover:cursor-pointer"
-            @click="() => (drawerOpen = true)"
+            @click="onOpenFormDrawer"
           >
             <div
               class="flex items-center justify-center ease-in-out transition-all"
@@ -157,13 +187,13 @@ const deleteChild = async () => {
     </div>
   </div>
 
-  <drawer-molecule :is-open="drawerOpen" @close="onCloseDrawer">
+  <drawer-molecule :is-open="formDrawerOpen" @close="onCloseFormDrawer">
     <template #title>
-      <div class="text-amber-500">Ajouter un enfant</div>
+      <div class="text-amber-500">{{ childForm?.formTitleText }}</div>
     </template>
     <child-form-organism
       ref="childForm"
-      @submit="addChild"
+      @submit="submitChild"
     ></child-form-organism>
   </drawer-molecule>
 
@@ -171,7 +201,7 @@ const deleteChild = async () => {
     :is-open="deleteChildModalOpen"
     confirm-button-text="Supprimer"
     accent-color="error"
-    @cancel="cancelDeletionModal"
+    @cancel="onCancelDeletionModal"
     @confirm="deleteChild"
   >
     <template #title>Confirmer la suppression</template>

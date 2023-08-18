@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import dayjs from "dayjs";
+import { Ref, ref } from "vue";
 import { useForm } from "vee-validate";
 import * as yup from "yup";
+import dayjs from "dayjs";
 
 import InputTextAtom from "@/components/atoms/InputText/InputTextAtom.vue";
 import InputDateAtom from "@/components/atoms/InputDate/InputDateAtom.vue";
@@ -10,6 +11,14 @@ import ButtonAtom from "@/components/atoms/Button/ButtonAtom.vue";
 
 import type { SelectOption } from "@/types/select.type";
 
+type ChildFormValues = {
+  _id?: string;
+  firstName: string;
+  lastName: string;
+  gender: string;
+  birthday: string;
+};
+
 const emit = defineEmits(["submit"]);
 
 const genderOptions: SelectOption[] = [
@@ -17,14 +26,17 @@ const genderOptions: SelectOption[] = [
   { label: "Garçon", value: "masculine" },
 ];
 
-const initialValues = {
+const formTitleText: Ref<string> = ref("Ajouter un enfant");
+const submitButtonText: Ref<string> = ref("Ajouter");
+
+const initialValues: ChildFormValues = {
   firstName: "",
   lastName: "",
   gender: "feminine",
   birthday: dayjs().format("YYYY-MM-DD"),
 };
 
-const { errors, handleSubmit, useFieldModel, resetForm } = useForm({
+const { errors, handleSubmit, useFieldModel, resetForm, setValues } = useForm({
   initialValues,
   validationSchema: {
     firstName: yup.string().required("Le prénom est obligatoire"),
@@ -45,15 +57,24 @@ const lastName = useFieldModel("lastName");
 const gender = useFieldModel("gender");
 const birthday = useFieldModel("birthday");
 
+const set = (values: ChildFormValues) => {
+  setValues(values);
+  submitButtonText.value = "Modifier";
+  formTitleText.value = "Modifier un enfant";
+};
+
 const reset = () => {
   resetForm();
+  setValues({ _id: undefined });
+  submitButtonText.value = "Ajouter";
+  formTitleText.value = "Ajouter un enfant";
 };
 
 const onSubmit = handleSubmit((values) => {
   emit("submit", values);
 });
 
-defineExpose({ reset });
+defineExpose({ set, reset, formTitleText });
 </script>
 
 <template>
@@ -98,7 +119,9 @@ defineExpose({ reset });
         :error="errors.birthday"
       />
     </div>
-    <button-atom type="submit">Ajouter</button-atom>
+    <button-atom type="submit" color="primary">
+      {{ submitButtonText }}
+    </button-atom>
   </form>
 </template>
 
