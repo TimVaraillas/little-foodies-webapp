@@ -28,6 +28,8 @@ const { children } = storeToRefs(childStore);
 
 const childForm = ref<InstanceType<typeof ChildFormOrganism> | null>(null);
 const drawerOpen: Ref<boolean> = ref(false);
+
+const deleteChildId: Ref<string | null> = ref(null);
 const deleteChildModalOpen: Ref<boolean> = ref(false);
 
 const onCloseDrawer = () => {
@@ -60,13 +62,34 @@ const addChild = async (value: any) => {
   }
 };
 
-const deleteChild = () => {
+const openDeletionModal = (childId: string) => {
+  deleteChildId.value = childId;
+  deleteChildModalOpen.value = true;
+};
+
+const cancelDeletionModal = () => {
+  deleteChildId.value = null;
+  deleteChildModalOpen.value = false;
+};
+
+const deleteChild = async () => {
+  if (deleteChildId.value) {
+    const response = await childStore.deleteChild(deleteChildId.value);
+    if (response.status === 204) {
+      toastStore.success({
+        text: "Les données de l'enfant ont été supprimées avec succès",
+      });
+    }
+    await fetchChildren();
+  }
+  deleteChildId.value = null;
   deleteChildModalOpen.value = false;
 };
 </script>
 
 <template>
   <header-organism title="Ma famille"></header-organism>
+
   <div class="container mx-auto">
     <div class="my-10">
       <title-atom class="text-center mb-8" :level="2">Utilisateur</title-atom>
@@ -76,7 +99,7 @@ const deleteChild = () => {
             <div class="flex items-center justify-start">
               <icon-atom
                 icon="user"
-                class="flex justify-center items-center text-xl text-amber-500 border-amber-500 border rounded-full w-10 h-10"
+                class="flex justify-center items-center text-xl text-amber-500 rounded-full"
               ></icon-atom>
               <text-atom class="ml-4" size="xl" weight="bold">
                 {{ user?.first_name }} {{ user?.last_name }}
@@ -86,6 +109,7 @@ const deleteChild = () => {
         </grid-item-atom>
       </grid-molecule>
     </div>
+
     <div class="my-10">
       <title-atom class="text-center mb-8" :level="2">Enfants</title-atom>
       <grid-molecule :columns="12" gap="16px">
@@ -96,21 +120,22 @@ const deleteChild = () => {
                 <icon-atom
                   v-if="child.gender === 'masculine'"
                   icon="child"
-                  class="flex justify-center items-center text-2xl text-blue-500 border-blue-500 border rounded-full w-10 h-10"
+                  class="flex justify-center items-center text-2xl text-blue-500 rounded-full"
                 ></icon-atom>
                 <icon-atom
                   v-if="child.gender === 'feminine'"
                   icon="child-dress"
-                  class="flex justify-center items-center text-2xl text-pink-500 border-pink-500 border rounded-full w-10 h-10"
+                  class="flex justify-center items-center text-2xl text-pink-500 rounded-full"
                 ></icon-atom>
                 <text-atom class="ml-4" size="xl" weight="bold">
                   {{ child?.first_name }} {{ child?.last_name }}
                 </text-atom>
               </div>
               <icon-atom
+                v-if="child._id"
                 icon="trash"
                 class="flex justify-center items-center text-xl text-slate-300 hover:text-rose-500 hover:cursor-pointer"
-                @click.stop="deleteChildModalOpen = true"
+                @click.stop="openDeletionModal(child._id)"
               ></icon-atom>
             </div>
           </card-atom>
@@ -145,14 +170,15 @@ const deleteChild = () => {
   <modal-molecule
     :is-open="deleteChildModalOpen"
     confirm-button-text="Supprimer"
-    @cancel="deleteChildModalOpen = false"
+    accent-color="error"
+    @cancel="cancelDeletionModal"
     @confirm="deleteChild"
   >
-    <template #title>
-      <div class="text-rose-500">Confirmer la suppression</div>
-    </template>
-    Voulez-vous vraiment supprimer cet enfant ? <br />
-    Toutes les données relatives à cet enfant seront supprimée.
+    <template #title>Confirmer la suppression</template>
+    <text-atom>
+      Voulez-vous vraiment supprimer cet enfant ? <br />
+      Toutes les données relatives à cet enfant seront supprimée.
+    </text-atom>
   </modal-molecule>
 </template>
 
