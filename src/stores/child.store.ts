@@ -33,10 +33,15 @@ export const useChildStore = defineStore("child", () => {
     });
   };
 
+  const deleteChild = async (childId: string) => {
+    return await http.delete(`/children/${childId}`);
+  };
+
   return {
     children,
     childById,
     fetchChildren,
     addChild,
+    deleteChild,
   };
 });
