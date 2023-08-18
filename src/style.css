@@ -5,7 +5,7 @@
 @tailwind utilities;
 
 body {
-  @apply text-gray-800;
+  @apply text-slate-800;
   font-family: "Marianne", "Roboto", "Helvetica Neue", sans-serif;
 }
 
