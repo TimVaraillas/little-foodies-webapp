@@ -45,6 +45,7 @@ const creditials: Ref<AuthenticationCreditials> = ref({
           size="md"
         />
         <button-atom
+          color="primary"
           class="mt-6 col-start-5 col-span-4"
           @click="() => authStore.login(creditials)"
         >
