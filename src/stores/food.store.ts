@@ -25,7 +25,7 @@ export const useFoodStore = defineStore("food", () => {
       categories: string[] | null = [],
       seasons: string[] | null = [],
       introductoryMonth: number | null = null,
-      allergens: boolean | null = null
+      allergens: string | null = null
     ): Food[] => {
       return foods.value.filter((f: Food) => {
         if (search && !f.name.toLowerCase().includes(search.toLowerCase())) {
@@ -40,7 +40,10 @@ export const useFoodStore = defineStore("food", () => {
         if (introductoryMonth && f.introductory_month > introductoryMonth) {
           return false;
         }
-        if (typeof allergens === "boolean" && allergens !== f.main_allergens) {
+        if (
+          (allergens === "Oui" || allergens === "Non") &&
+          (allergens === "Oui" ? true : false) !== f.main_allergens
+        ) {
           return false;
         }
         return true;
