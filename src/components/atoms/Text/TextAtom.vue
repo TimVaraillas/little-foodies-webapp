@@ -17,7 +17,7 @@ const props = withDefaults(defineProps<Props>(), {
   weight: "normal",
 });
 
-const weightMapping: any = {
+const weightMapping = {
   thin: 100,
   light: 300,
   normal: 400,
