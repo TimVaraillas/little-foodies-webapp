@@ -8,9 +8,12 @@ import TitleAtom from "@/components/atoms/Title/TitleAtom.vue";
 // WARNING!   Do not forget to stop click propagation on opening modal (@click.stop), otherwise the modal will not open,
 //            as the v-click-out directive will be triggered and close the modal immediately.
 
+type Color = "primary" | "info" | "success" | "warning" | "error";
+
 interface Props {
   isOpen: boolean;
   size?: "xs" | "sm" | "md" | "lg" | "xl";
+  accentColor?: Color;
   cancelButton?: boolean;
   cancelButtonText?: string;
   confirmButton?: boolean;
@@ -19,6 +22,7 @@ interface Props {
 
 const props = withDefaults(defineProps<Props>(), {
   size: "md",
+  accentColor: "info",
   cancelButton: true,
   cancelButtonText: "Annuler",
   confirmButton: true,
@@ -82,7 +86,11 @@ const onConfirm = () => {
                   'px-6 pt-6': !slots.title,
                 }"
               >
-                <title-atom :level="4" class="ml-3 flex-1 text-center">
+                <title-atom
+                  :level="4"
+                  class="title ml-3 flex-1 text-center"
+                  :class="[accentColor]"
+                >
                   <slot name="title"></slot>
                 </title-atom>
                 <div class="w-3" @click="onCancel">
@@ -109,7 +117,7 @@ const onConfirm = () => {
                 </button-atom>
                 <button-atom
                   v-if="confirmButton"
-                  color="error"
+                  :color="accentColor"
                   @click="onConfirm"
                 >
                   {{ confirmButtonText }}
@@ -123,4 +131,20 @@ const onConfirm = () => {
   </teleport>
 </template>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.title {
+  &.primary,
+  &.warning {
+    color: theme("colors.amber.500");
+  }
+  &.info {
+    color: theme("colors.sky.500");
+  }
+  &.success {
+    color: theme("colors.emerald.500");
+  }
+  &.error {
+    color: theme("colors.rose.500");
+  }
+}
+</style>
