@@ -62,13 +62,13 @@ const closeDrawer = () => {
         <slot name="footer"></slot>
       </div>
     </aside>
-    <Transition>
+    <transition>
       <div
         v-if="isOpen"
         class="drawer-background fixed top-0 left-0 h-screen w-screen backdrop-blur-sm bg-slate-900/40 z-30"
         @click="closeDrawer"
       ></div>
-    </Transition>
+    </transition>
   </div>
 </template>
 
