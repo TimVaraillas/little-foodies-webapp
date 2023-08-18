@@ -33,6 +33,18 @@ export const useChildStore = defineStore("child", () => {
     });
   };
 
+  const updateChild = async (child: Child) => {
+    if (child._id) {
+      return await http.put(`/children/${child._id}`, {
+        first_name: child.first_name,
+        last_name: child.last_name,
+        gender: child.gender,
+        birthday: child.birthday,
+      });
+    }
+    return;
+  };
+
   const deleteChild = async (childId: string) => {
     return await http.delete(`/children/${childId}`);
   };
@@ -42,6 +54,7 @@ export const useChildStore = defineStore("child", () => {
     childById,
     fetchChildren,
     addChild,
+    updateChild,
     deleteChild,
   };
 });
