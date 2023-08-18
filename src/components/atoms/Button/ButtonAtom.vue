@@ -6,7 +6,7 @@ interface Props {
   modelValue?: string;
   prependIcon?: string;
   size?: Size;
-  color: Color;
+  color?: Color;
 }
 
 const props = withDefaults(defineProps<Props>(), {
