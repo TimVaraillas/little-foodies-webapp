@@ -2,6 +2,7 @@
 import LogoAtom from "@/components/atoms/Logo/LogoAtom.vue";
 import AvatarDropdownMolecule from "@/components/molecules/AvatarDropdown/AvatarDropdownMolecule.vue";
 import NavBarMenuMolecule from "@/components/molecules/NavBarMenu/NavBarMenuMolecule.vue";
+import ChildSelectorOrganism from "@/components/organisms/ChildSelector/ChildSelectorOrganism.vue";
 
 import type { MenuItem, NavBarMenuItem } from "@/types/menu.type";
 import type { User } from "@/types/user.type";
@@ -29,6 +30,10 @@ const props = withDefaults(
         <logo-atom v-if="props.logoUrl" :src="props.logoUrl" />
         <nav-bar-menu-molecule class="ml-10 mb-1" :menu="navMenu" />
       </div>
+      <child-selector-organism
+        v-if="props.user"
+        class="mr-5"
+      ></child-selector-organism>
       <div>
         <avatar-dropdown-molecule
           v-if="props.user"
