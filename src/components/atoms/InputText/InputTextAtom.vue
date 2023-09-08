@@ -82,12 +82,4 @@ const inputSizeClass = {
   </div>
 </template>
 
-<style scoped lang="scss">
-.input-component {
-  &.error {
-    .input-wrapper {
-
-    }
-  }
-}
-</style>
+<style scoped lang="scss"></style>
