@@ -20,6 +20,7 @@ interface Props {
   closeOnSelect?: boolean;
   size?: Size;
   error?: string;
+  customClass?: string;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -30,6 +31,7 @@ const props = withDefaults(defineProps<Props>(), {
   hideSelected: true,
   size: "md",
   closeOnSelect: true,
+  customClass: "",
 });
 
 const emit = defineEmits(["update:modelValue"]);
@@ -52,7 +54,7 @@ const sizeClass = computed(() => ({
   <div>
     <Multiselect
       class="custom-multiselect"
-      :class="{ ...sizeClass, error }"
+      :class="{ ...sizeClass, error, [customClass]: true }"
       v-model="internalValue"
       :options="props.options"
       :mode="props.mode"
@@ -62,6 +64,7 @@ const sizeClass = computed(() => ({
       :close-on-select="closeOnSelect"
       :searchable="props.searchable"
       :canClear="props.clearable"
+      :canDeselect="props.clearable"
       :no-results-text="props.noResultsText"
       :no-options-text="props.noOptionsText"
       :hideSelected="hideSelected"
