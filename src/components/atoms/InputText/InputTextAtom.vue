@@ -44,7 +44,7 @@ const inputSizeClass = {
       class="w-full flex bg-slate-50 text-slate-900 rounded-lg border border-slate-300 focus-within:ring-4 focus-within:ring-amber-200"
       :class="{
         ...inputSizeClass,
-        'bg-rose-50 text-rose-600 border-rose-300 focus-within:ring-rose-200':
+        '!bg-rose-50 !text-rose-600 !border-rose-300 focus-within:!ring-rose-200':
           error,
       }"
     >
@@ -52,7 +52,7 @@ const inputSizeClass = {
         v-if="props.prependIcon"
         class="flex items-center pointer-events-none mr-3 text-slate-400"
         :class="{
-          'text-rose-600': error,
+          '!text-rose-600': error,
         }"
       >
         <icon-atom :icon="props.prependIcon" />
@@ -61,7 +61,7 @@ const inputSizeClass = {
         type="text"
         class="grow bg-slate-50"
         :class="{
-          'bg-rose-50': error,
+          '!bg-rose-50': error,
         }"
         v-model="internalValue"
         :placeholder="props.placeholder"
@@ -71,7 +71,7 @@ const inputSizeClass = {
         type="button"
         class="flex items-center ml-2 text-slate-400 hover:text-slate-800"
         :class="{
-          'text-rose-600 hover:text-rose-800': error,
+          '!text-rose-600 hover:!text-rose-800': error,
         }"
         @click="clearValue"
       >
@@ -82,4 +82,12 @@ const inputSizeClass = {
   </div>
 </template>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.input-component {
+  &.error {
+    .input-wrapper {
+
+    }
+  }
+}
+</style>
